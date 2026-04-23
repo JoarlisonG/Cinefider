@@ -159,38 +159,6 @@
         color: white;
         margin-top: 15px;
     }
-
-    /* ESTILO DO NOVO MODAL PROFISSIONAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    .modal-card {
-      background: #1a1a1a;
-      border: 2px solid #00ff9c;
-      padding: 30px;
-      border-radius: 25px;
-      max-width: 350px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 0 30px rgba(0, 255, 156, 0.2);
-    }
-
-    .modal-card h3 { margin-bottom: 15px; color: #00ff9c; }
-    .modal-card p { font-size: 0.9rem; margin-bottom: 25px; color: #ccc; }
-    
-    .modal-buttons { display: flex; gap: 10px; }
-    
-    .btn-modal-cancel { background: #333; color: white; }
-    .btn-modal-confirm { background: #ff6b6b; color: white; }
-
   </style>
 </head>
 <body>
@@ -231,20 +199,8 @@
   <div class="assistidos">
     <h3>✅ Filmes que já vi</h3>
     <ul id="listaAssistidos" class="lista-filmes"></ul>
-    <button onclick="abrirModalLimpar()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
+    <button onclick="limparAssistidos()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
   </div>
-</div>
-
-<div id="cineModal" class="modal-overlay">
-    <div class="modal-card">
-        <i class="fas fa-trash-alt" style="color: #ff6b6b; font-size: 2rem; margin-bottom: 10px;"></i>
-        <h3>Limpar Histórico?</h3>
-        <p>Isso apagará permanentemente todos os filmes que você já assistiu da sua lista.</p>
-        <div class="modal-buttons">
-            <button class="btn-modal-cancel" onclick="fecharModal()">Não, manter</button>
-            <button class="btn-modal-confirm" onclick="confirmarLimpeza()">Sim, limpar</button>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -273,15 +229,11 @@ function salvarPreferencias() {
   const selecionados = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
   const genero = document.getElementById("genero").value;
 
-  if (selecionados.length === 0) { 
-      // Usei um alert simples, mas poderia ser modal também
-      alert("⚠️ Escolha um streaming!"); 
-      return; 
-  }
+  if (selecionados.length === 0) { alert("⚠️ Escolha um streaming!"); return; }
 
   localStorage.setItem("streamings", JSON.stringify(selecionados));
   localStorage.setItem("generoPref", genero);
-  alert("✅ Preferências Salvas!");
+  alert("✅ Salvo!");
 }
 
 async function indicarFilme() {
@@ -289,7 +241,7 @@ async function indicarFilme() {
   const generoId = document.getElementById("genero").value;
   const resultado = document.getElementById("resultado");
 
-  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings primeiro!"; return; }
+  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings!"; return; }
 
   resultado.innerHTML = '<div class="loading"></div>';
 
@@ -310,7 +262,7 @@ async function indicarFilme() {
     const pDados = await pResp.json();
     
     mostrarFilme(filme, pDados.results?.BR?.flatrate || []);
-  } catch (e) { resultado.innerHTML = "❌ Erro ao buscar filme."; }
+  } catch (e) { resultado.innerHTML = "❌ Erro ao buscar."; }
 }
 
 function mostrarFilme(filme, provs) {
@@ -318,7 +270,7 @@ function mostrarFilme(filme, provs) {
   document.getElementById("resultado").innerHTML = `
     <img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="poster">
     <h2>${filme.title}</h2>
-    <p style="font-size: 0.85rem; margin-bottom: 10px;">${filme.overview || "Sem sinopse disponível."}</p>
+    <p style="font-size: 0.85rem; margin-bottom: 10px;">${filme.overview || "Sem sinopse."}</p>
     <p><strong>⭐ Nota:</strong> ${filme.vote_average.toFixed(1)}</p>
     <p><strong>📺 Onde:</strong> <span style="color: #00ff9c;">${nomes}</span></p>
     <button class="btn-check" onclick="marcarComoAssistido('${filme.title.replace(/'/g, "\\'")}')">✅ Já assisti esse!</button>
@@ -331,6 +283,9 @@ function marcarComoAssistido(titulo) {
     assistidos.push(titulo);
     localStorage.setItem("assistidos", JSON.stringify(assistidos));
     renderizarAssistidos();
+    alert("Adicionado à sua lista!");
+  } else {
+    alert("Você já marcou esse filme!");
   }
 }
 
@@ -340,21 +295,11 @@ function renderizarAssistidos() {
   el.innerHTML = lista.map(t => <li>${t} <span>✔</span></li>).join("");
 }
 
-// FUNÇÕES DO NOVO MODAL DE CONFIRMAÇÃO
-function abrirModalLimpar() {
-    const lista = JSON.parse(localStorage.getItem("assistidos")) || [];
-    if(lista.length === 0) return; // Não abre se já estiver vazio
-    document.getElementById("cineModal").style.display = "flex";
-}
-
-function fecharModal() {
-    document.getElementById("cineModal").style.display = "none";
-}
-
-function confirmarLimpeza() {
+function limparAssistidos() {
+  if(confirm("Limpar sua lista de filmes vistos?")) {
     localStorage.removeItem("assistidos");
     renderizarAssistidos();
-    fecharModal();
+  }
 }
 
 carregarPreferencias();
