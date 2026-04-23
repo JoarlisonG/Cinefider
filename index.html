@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineFinder - Encontre seu próximo filme</title>
   <style>
-    /* --- SEU CSS ORIGINAL COM MELHORIAS --- */
+    /* --- SEU CSS ORIGINAL MANTIDO --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -70,21 +70,26 @@
 
     .btn-check { background: #00b8ff; color: white; margin-top: 15px; }
 
-    /* --- CSS DO NOVO MODAL (MAIS BONITO QUE CONFIRM) --- */
+    /* --- CSS DO MODAL MELHORADO --- */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
       display: none; justify-content: center; align-items: center; z-index: 1000;
     }
     .modal-content {
-      background: #1a1a1a; padding: 30px; border-radius: 20px;
-      border: 1px solid #00ff9c; text-align: center; max-width: 300px;
-      box-shadow: 0 0 20px rgba(0, 255, 156, 0.2);
+      background: #1a1a1a; padding: 30px; border-radius: 24px;
+      border: 1px solid rgba(0, 255, 156, 0.4); text-align: center; 
+      max-width: 320px; width: 90%;
+      box-shadow: 0 0 30px rgba(0, 255, 156, 0.15);
+      animation: modalShow 0.3s ease-out;
     }
-    .modal-content p { margin-bottom: 20px; font-size: 1.1rem; }
-    .modal-btns { display: flex; gap: 10px; }
-    .btn-confirm { background: #ff6b6b; color: white; }
-    .btn-cancel { background: #555; color: white; }
+    @keyframes modalShow { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-content p { margin-bottom: 25px; font-size: 1.1rem; line-height: 1.4; color: #eee; }
+    .modal-btns { display: flex; gap: 12px; justify-content: center; }
+    .modal-btns button { margin-top: 0; padding: 10px 20px; font-size: 0.9rem; }
+    .btn-confirm-modal { background: #00ff9c; color: #000; }
+    .btn-cancel-modal { background: rgba(255, 255, 255, 0.1); color: white; }
+    .btn-danger-modal { background: #ff6b6b !important; color: white !important; }
   </style>
 </head>
 <body>
@@ -130,11 +135,9 @@
 
 <div id="customModal" class="modal-overlay">
   <div class="modal-content">
-    <p id="modalMsg">Deseja mesmo limpar?</p>
-    <div class="modal-btns">
-      <button class="btn-confirm" id="btnConfirm">Sim</button>
-      <button class="btn-cancel" onclick="fecharModal()">Não</button>
-    </div>
+    <p id="modalMsg">Mensagem aqui</p>
+    <div class="modal-btns" id="modalBtnContainer">
+      </div>
   </div>
 </div>
 
@@ -145,15 +148,40 @@ const STREAMING_MAP = {
   "HBO Max": 1899, "Apple TV+": 350, "Paramount+": 531
 };
 
-// --- LOGICA DO MODAL CUSTOMIZADO ---
-function abrirModalLimpar() {
+// --- LOGICA DO MODAL CUSTOMIZADO (SUBSTITUTO DO ALERT E CONFIRM) ---
+function mostrarModal(mensagem, tipo = 'aviso', callback = null) {
   const modal = document.getElementById('customModal');
+  const msgText = document.getElementById('modalMsg');
+  const btnContainer = document.getElementById('modalBtnContainer');
+  
+  msgText.innerText = mensagem;
+  btnContainer.innerHTML = ''; // Limpa botões anteriores
+  
+  if (tipo === 'confirmacao') {
+    // Botão Sim
+    const btnSim = document.createElement('button');
+    btnSim.innerText = 'SIM';
+    btnSim.className = callback.name === 'limparTudo' ? 'btn-confirm-modal btn-danger-modal' : 'btn-confirm-modal';
+    btnSim.onclick = () => { fecharModal(); if(callback) callback(); };
+    
+    // Botão Não
+    const btnNao = document.createElement('button');
+    btnNao.innerText = 'NÃO';
+    btnNao.className = 'btn-cancel-modal';
+    btnNao.onclick = fecharModal;
+    
+    btnContainer.appendChild(btnSim);
+    btnContainer.appendChild(btnNao);
+  } else {
+    // Apenas botão OK (Aviso)
+    const btnOk = document.createElement('button');
+    btnOk.innerText = 'ENTENDIDO';
+    btnOk.className = 'btn-confirm-modal';
+    btnOk.onclick = fecharModal;
+    btnContainer.appendChild(btnOk);
+  }
+  
   modal.style.display = 'flex';
-  document.getElementById('btnConfirm').onclick = function() {
-    localStorage.removeItem("assistidos");
-    renderizarAssistidos();
-    fecharModal();
-  };
 }
 
 function fecharModal() {
@@ -161,6 +189,7 @@ function fecharModal() {
 }
 
 // --- FUNÇÕES DO APP ---
+
 function carregarPreferencias() {
   const savedStream = localStorage.getItem("streamings");
   if (savedStream) {
@@ -177,35 +206,58 @@ function carregarPreferencias() {
 function salvarPreferencias() {
   const selecionados = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
   const genero = document.getElementById("genero").value;
-  if (selecionados.length === 0) { alert("⚠️ Escolha pelo menos um streaming!"); return; }
+  
+  if (selecionados.length === 0) { 
+    mostrarModal("⚠️ Por favor, escolha pelo menos um streaming para salvar!"); 
+    return; 
+  }
+  
   localStorage.setItem("streamings", JSON.stringify(selecionados));
   localStorage.setItem("generoPref", genero);
-  alert("✅ Preferências salvas!");
+  mostrarModal("✅ Suas preferências foram salvas com sucesso!");
+}
+
+function abrirModalLimpar() {
+    mostrarModal("Deseja mesmo limpar sua lista de filmes assistidos?", "confirmacao", function limparTudo() {
+        localStorage.removeItem("assistidos");
+        renderizarAssistidos();
+    });
 }
 
 async function indicarFilme() {
   const favoritos = JSON.parse(localStorage.getItem("streamings")) || [];
   const generoId = document.getElementById("genero").value;
   const resultado = document.getElementById("resultado");
-  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings primeiro!"; return; }
+  
+  if (favoritos.length === 0) { 
+    mostrarModal("⚠️ Você precisa salvar suas preferências antes de pedir uma indicação!"); 
+    return; 
+  }
   
   resultado.innerHTML = '<div class="loading"></div>';
 
   try {
     const providerIds = favoritos.map(nome => STREAMING_MAP[nome]).join("|");
-    const randomPage = Math.floor(Math.random() * 5) + 1; // Aumentei o range de páginas
+    const randomPage = Math.floor(Math.random() * 5) + 1;
     let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pt-BR&sort_by=popularity.desc&watch_region=BR&with_watch_providers=${providerIds}&page=${randomPage}`;
     if (generoId) url += `&with_genres=${generoId}`;
 
     const resp = await fetch(url);
     const dados = await resp.json();
     const filmes = dados.results.filter(f => f.poster_path);
-    const filme = filmes[Math.floor(Math.random() * filmes.length)];
+    
+    if (filmes.length === 0) {
+        resultado.innerHTML = "😢 Nenhum filme encontrado. Tente mudar os filtros!";
+        return;
+    }
 
+    const filme = filmes[Math.floor(Math.random() * filmes.length)];
     const pResp = await fetch(`https://api.themoviedb.org/3/movie/${filme.id}/watch/providers?api_key=${API_KEY}`);
     const pDados = await pResp.json();
     mostrarFilme(filme, pDados.results?.BR?.flatrate || []);
-  } catch (e) { resultado.innerHTML = "❌ Erro ao buscar."; }
+  } catch (e) { 
+    resultado.innerHTML = "❌ Erro ao buscar filme. Verifique sua conexão."; 
+  }
 }
 
 function mostrarFilme(filme, provs) {
@@ -214,7 +266,7 @@ function mostrarFilme(filme, provs) {
   document.getElementById("resultado").innerHTML = `
     <img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="poster">
     <h2>${filme.title}</h2>
-    <p style="font-size: 0.85rem; margin-bottom: 10px; max-height: 100px; overflow-y: auto;">${filme.overview || "Sem sinopse."}</p>
+    <p style="font-size: 0.85rem; margin-bottom: 10px; max-height: 100px; overflow-y: auto; padding: 0 5px;">${filme.overview || "Sem sinopse disponível."}</p>
     <p><strong>⭐ Nota:</strong> ${filme.vote_average.toFixed(1)}</p>
     <p><strong>📺 Onde:</strong> <span style="color: #00ff9c;">${nomes}</span></p>
     <button class="btn-check" onclick="marcarComoAssistido('${tituloEscapado}')">✅ Já assisti esse!</button>
@@ -227,6 +279,9 @@ function marcarComoAssistido(titulo) {
     assistidos.push(titulo);
     localStorage.setItem("assistidos", JSON.stringify(assistidos));
     renderizarAssistidos();
+    mostrarModal(`🍿 "${titulo}" adicionado aos vistos!`);
+  } else {
+    mostrarModal("Você já marcou este filme como assistido.");
   }
 }
 
