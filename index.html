@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineFinder - Encontre seu próximo filme</title>
   <style>
+    /* --- SEU CSS ORIGINAL COM MELHORIAS --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -31,134 +32,59 @@
       animation: float 20s linear infinite;
     }
 
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-50px); }
-    }
+    @keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-50px); } }
 
-    .container {
-      width: 100%;
-      max-width: 450px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      animation: fadeInUp 0.6s ease-out;
-    }
+    .container { width: 100%; max-width: 450px; text-align: center; position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #00ff9c, #00b8ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 30px rgba(0, 255, 156, 0.3);
-    }
+    h1 { font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(135deg, #00ff9c, #00b8ff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 30px rgba(0, 255, 156, 0.3); }
 
-    .card {
-      background: rgba(17, 17, 17, 0.8);
-      backdrop-filter: blur(10px);
-      padding: 25px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(0, 255, 156, 0.2);
-    }
+    .card { background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 255, 156, 0.2); }
 
     .card h2 { font-size: 1.3rem; margin-bottom: 15px; color: #00ff9c; }
 
-    label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 15px;
-      margin: 5px 0;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
+    label { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; margin: 5px 0; background: rgba(255, 255, 255, 0.05); border-radius: 12px; cursor: pointer; transition: 0.3s; }
     label:hover { background: rgba(0, 255, 156, 0.1); }
 
-    select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      border: 1px solid rgba(0, 255, 156, 0.3);
-      margin-bottom: 15px;
-      outline: none;
-    }
-
+    select { width: 100%; padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(0, 255, 156, 0.3); margin-bottom: 15px; outline: none; }
     select option { background: #1a1a1a; }
 
-    button {
-      margin-top: 10px;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00ff9c, #00cc7a);
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      text-transform: uppercase;
-      transition: 0.3s;
-    }
-
+    button { margin-top: 10px; padding: 12px; border: none; border-radius: 12px; background: linear-gradient(135deg, #00ff9c, #00cc7a); color: #000; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
     button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 255, 156, 0.4); }
 
-    .btn-indicar {
-      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-      color: white;
-      font-size: 1.1rem;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
+    .btn-indicar { background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; font-size: 1.1rem; padding: 15px; margin-bottom: 20px; }
 
-    .resultado, .assistidos {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(17, 17, 17, 0.9);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 255, 156, 0.2);
-    }
+    .resultado { margin-top: 20px; padding: 20px; background: rgba(17, 17, 17, 0.9); border-radius: 20px; border: 1px solid rgba(0, 255, 156, 0.2); }
 
-    .assistidos { text-align: left; }
+    .assistidos { margin-top: 20px; padding: 20px; background: rgba(17, 17, 17, 0.9); border-radius: 20px; border: 1px solid rgba(0, 255, 156, 0.2); text-align: left; }
     .assistidos h3 { color: #00ff9c; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
+
     .lista-filmes { list-style: none; max-height: 200px; overflow-y: auto; }
-    .lista-filmes li { 
-        padding: 8px; 
-        background: rgba(255,255,255,0.05); 
-        margin: 5px 0; 
-        border-radius: 8px; 
-        font-size: 0.85rem;
-        display: flex;
-        justify-content: space-between;
-    }
+    .lista-filmes li { padding: 8px; background: rgba(255,255,255,0.05); margin: 5px 0; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; }
 
     .poster { width: 100%; max-width: 250px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 15px;}
 
-    .loading {
-      display: inline-block; width: 30px; height: 30px;
-      border: 4px solid rgba(0, 255, 156, 0.3);
-      border-radius: 50%; border-top-color: #00ff9c;
-      animation: spin 1s linear infinite;
-    }
+    .loading { display: inline-block; width: 30px; height: 30px; border: 4px solid rgba(0, 255, 156, 0.3); border-radius: 50%; border-top-color: #00ff9c; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .btn-check {
-        background: #00b8ff;
-        color: white;
-        margin-top: 15px;
+    .btn-check { background: #00b8ff; color: white; margin-top: 15px; }
+
+    /* --- CSS DO NOVO MODAL (MAIS BONITO QUE CONFIRM) --- */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+      display: none; justify-content: center; align-items: center; z-index: 1000;
     }
+    .modal-content {
+      background: #1a1a1a; padding: 30px; border-radius: 20px;
+      border: 1px solid #00ff9c; text-align: center; max-width: 300px;
+      box-shadow: 0 0 20px rgba(0, 255, 156, 0.2);
+    }
+    .modal-content p { margin-bottom: 20px; font-size: 1.1rem; }
+    .modal-btns { display: flex; gap: 10px; }
+    .btn-confirm { background: #ff6b6b; color: white; }
+    .btn-cancel { background: #555; color: white; }
   </style>
 </head>
 <body>
@@ -168,7 +94,6 @@
 
   <div class="card">
     <h2>🎯 Preferências</h2>
-    
     <select id="genero">
       <option value="">🎬 Todos os Gêneros</option>
       <option value="28">Ação</option>
@@ -199,7 +124,17 @@
   <div class="assistidos">
     <h3>✅ Filmes que já vi</h3>
     <ul id="listaAssistidos" class="lista-filmes"></ul>
-    <button onclick="limparAssistidos()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
+    <button onclick="abrirModalLimpar()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
+  </div>
+</div>
+
+<div id="customModal" class="modal-overlay">
+  <div class="modal-content">
+    <p id="modalMsg">Deseja mesmo limpar?</p>
+    <div class="modal-btns">
+      <button class="btn-confirm" id="btnConfirm">Sim</button>
+      <button class="btn-cancel" onclick="fecharModal()">Não</button>
+    </div>
   </div>
 </div>
 
@@ -210,6 +145,22 @@ const STREAMING_MAP = {
   "HBO Max": 1899, "Apple TV+": 350, "Paramount+": 531
 };
 
+// --- LOGICA DO MODAL CUSTOMIZADO ---
+function abrirModalLimpar() {
+  const modal = document.getElementById('customModal');
+  modal.style.display = 'flex';
+  document.getElementById('btnConfirm').onclick = function() {
+    localStorage.removeItem("assistidos");
+    renderizarAssistidos();
+    fecharModal();
+  };
+}
+
+function fecharModal() {
+  document.getElementById('customModal').style.display = 'none';
+}
+
+// --- FUNÇÕES DO APP ---
 function carregarPreferencias() {
   const savedStream = localStorage.getItem("streamings");
   if (savedStream) {
@@ -218,62 +169,55 @@ function carregarPreferencias() {
       if (salvos.includes(cb.value)) cb.checked = true;
     });
   }
-  
   const savedGenero = localStorage.getItem("generoPref");
   if (savedGenero) document.getElementById("genero").value = savedGenero;
-
   renderizarAssistidos();
 }
 
 function salvarPreferencias() {
   const selecionados = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
   const genero = document.getElementById("genero").value;
-
-  if (selecionados.length === 0) { alert("⚠️ Escolha um streaming!"); return; }
-
+  if (selecionados.length === 0) { alert("⚠️ Escolha pelo menos um streaming!"); return; }
   localStorage.setItem("streamings", JSON.stringify(selecionados));
   localStorage.setItem("generoPref", genero);
-  alert("✅ Salvo!");
+  alert("✅ Preferências salvas!");
 }
 
 async function indicarFilme() {
   const favoritos = JSON.parse(localStorage.getItem("streamings")) || [];
   const generoId = document.getElementById("genero").value;
   const resultado = document.getElementById("resultado");
-
-  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings!"; return; }
-
+  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings primeiro!"; return; }
+  
   resultado.innerHTML = '<div class="loading"></div>';
 
   try {
     const providerIds = favoritos.map(nome => STREAMING_MAP[nome]).join("|");
-    const randomPage = Math.floor(Math.random() * 3) + 1;
-    
-    let url = https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pt-BR&sort_by=popularity.desc&watch_region=BR&with_watch_providers=${providerIds}&page=${randomPage};
-    
-    if (generoId) url += &with_genres=${generoId};
+    const randomPage = Math.floor(Math.random() * 5) + 1; // Aumentei o range de páginas
+    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pt-BR&sort_by=popularity.desc&watch_region=BR&with_watch_providers=${providerIds}&page=${randomPage}`;
+    if (generoId) url += `&with_genres=${generoId}`;
 
     const resp = await fetch(url);
     const dados = await resp.json();
     const filmes = dados.results.filter(f => f.poster_path);
     const filme = filmes[Math.floor(Math.random() * filmes.length)];
 
-    const pResp = await fetch(https://api.themoviedb.org/3/movie/${filme.id}/watch/providers?api_key=${API_KEY});
+    const pResp = await fetch(`https://api.themoviedb.org/3/movie/${filme.id}/watch/providers?api_key=${API_KEY}`);
     const pDados = await pResp.json();
-    
     mostrarFilme(filme, pDados.results?.BR?.flatrate || []);
   } catch (e) { resultado.innerHTML = "❌ Erro ao buscar."; }
 }
 
 function mostrarFilme(filme, provs) {
   const nomes = provs.map(p => p.provider_name).join(", ") || "Seus streamings";
+  const tituloEscapado = filme.title.replace(/'/g, "\\'");
   document.getElementById("resultado").innerHTML = `
     <img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="poster">
     <h2>${filme.title}</h2>
-    <p style="font-size: 0.85rem; margin-bottom: 10px;">${filme.overview || "Sem sinopse."}</p>
+    <p style="font-size: 0.85rem; margin-bottom: 10px; max-height: 100px; overflow-y: auto;">${filme.overview || "Sem sinopse."}</p>
     <p><strong>⭐ Nota:</strong> ${filme.vote_average.toFixed(1)}</p>
     <p><strong>📺 Onde:</strong> <span style="color: #00ff9c;">${nomes}</span></p>
-    <button class="btn-check" onclick="marcarComoAssistido('${filme.title.replace(/'/g, "\\'")}')">✅ Já assisti esse!</button>
+    <button class="btn-check" onclick="marcarComoAssistido('${tituloEscapado}')">✅ Já assisti esse!</button>
   `;
 }
 
@@ -283,23 +227,13 @@ function marcarComoAssistido(titulo) {
     assistidos.push(titulo);
     localStorage.setItem("assistidos", JSON.stringify(assistidos));
     renderizarAssistidos();
-    alert("Adicionado à sua lista!");
-  } else {
-    alert("Você já marcou esse filme!");
   }
 }
 
 function renderizarAssistidos() {
   const lista = JSON.parse(localStorage.getItem("assistidos")) || [];
   const el = document.getElementById("listaAssistidos");
-  el.innerHTML = lista.map(t => <li>${t} <span>✔</span></li>).join("");
-}
-
-function limparAssistidos() {
-  if(confirm("Limpar sua lista de filmes vistos?")) {
-    localStorage.removeItem("assistidos");
-    renderizarAssistidos();
-  }
+  el.innerHTML = lista.map(t => `<li>${t} <span>✔</span></li>`).join("");
 }
 
 carregarPreferencias();
