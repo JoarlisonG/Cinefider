@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineFinder - Encontre seu próximo filme</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -24,31 +23,49 @@
     body::before {
       content: '';
       position: fixed;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       background-image: radial-gradient(circle, rgba(0, 255, 156, 0.1) 1px, transparent 1px);
       background-size: 50px 50px;
       pointer-events: none;
       animation: float 20s linear infinite;
-      z-index: 0;
     }
 
-    @keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-50px); } }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-50px); }
+    }
 
-    .container { width: 100%; max-width: 450px; text-align: center; position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; }
+    .container {
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.6s ease-out;
+    }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     h1 {
-      font-size: 2.5rem; margin-bottom: 20px;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
       background: linear-gradient(135deg, #00ff9c, #00b8ff);
-      -webkit-background-clip: text; background-clip: text;
-      color: transparent; text-shadow: 0 0 30px rgba(0, 255, 156, 0.3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(0, 255, 156, 0.3);
     }
 
     .card {
       background: rgba(17, 17, 17, 0.8);
       backdrop-filter: blur(10px);
-      padding: 25px; border-radius: 20px; margin-bottom: 20px;
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(0, 255, 156, 0.2);
     }
@@ -56,43 +73,76 @@
     .card h2 { font-size: 1.3rem; margin-bottom: 15px; color: #00ff9c; }
 
     label {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 15px; margin: 5px 0;
-      background: rgba(255, 255, 255, 0.05); border-radius: 12px;
-      cursor: pointer; transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+      margin: 5px 0;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     label:hover { background: rgba(0, 255, 156, 0.1); }
 
     select {
-      width: 100%; padding: 12px; border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1); color: white;
-      border: 1px solid rgba(0, 255, 156, 0.3); margin-bottom: 15px; outline: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(0, 255, 156, 0.3);
+      margin-bottom: 15px;
+      outline: none;
     }
 
+    select option { background: #1a1a1a; }
+
     button {
-      margin-top: 10px; padding: 12px; border: none; border-radius: 12px;
+      margin-top: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
       background: linear-gradient(135deg, #00ff9c, #00cc7a);
-      color: #000; font-weight: bold; cursor: pointer; width: 100%;
-      text-transform: uppercase; transition: 0.3s;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      transition: 0.3s;
     }
 
     button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 255, 156, 0.4); }
 
     .btn-indicar {
       background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-      color: white; font-size: 1.1rem; padding: 15px; margin-bottom: 20px;
+      color: white;
+      font-size: 1.1rem;
+      padding: 15px;
+      margin-bottom: 20px;
     }
 
     .resultado, .assistidos {
-      margin-top: 20px; padding: 20px;
-      background: rgba(17, 17, 17, 0.9); border-radius: 20px;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(17, 17, 17, 0.9);
+      border-radius: 20px;
       border: 1px solid rgba(0, 255, 156, 0.2);
     }
 
-    .assistidos h3 { color: #00ff9c; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 5px; text-align: left; }
-    .lista-filmes { list-style: none; max-height: 200px; overflow-y: auto; text-align: left;}
-    .lista-filmes li { padding: 8px; background: rgba(255,255,255,0.05); margin: 5px 0; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; }
+    .assistidos { text-align: left; }
+    .assistidos h3 { color: #00ff9c; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
+    .lista-filmes { list-style: none; max-height: 200px; overflow-y: auto; }
+    .lista-filmes li { 
+        padding: 8px; 
+        background: rgba(255,255,255,0.05); 
+        margin: 5px 0; 
+        border-radius: 8px; 
+        font-size: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+    }
 
     .poster { width: 100%; max-width: 250px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 15px;}
 
@@ -104,19 +154,11 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* MODAL CUSTOMIZADO */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-      display: none; justify-content: center; align-items: center; z-index: 9999;
+    .btn-check {
+        background: #00b8ff;
+        color: white;
+        margin-top: 15px;
     }
-    .modal-card {
-      background: #1a1a1a; border: 2px solid #00ff9c; padding: 30px;
-      border-radius: 25px; max-width: 350px; width: 90%; text-align: center;
-    }
-    .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-    .btn-modal-cancel { background: #333; color: white; }
-    .btn-modal-confirm { background: #ff6b6b; color: white; }
   </style>
 </head>
 <body>
@@ -126,6 +168,7 @@
 
   <div class="card">
     <h2>🎯 Preferências</h2>
+    
     <select id="genero">
       <option value="">🎬 Todos os Gêneros</option>
       <option value="28">Ação</option>
@@ -137,14 +180,12 @@
       <option value="18">Drama</option>
     </select>
 
-    <div id="streaming-list">
-        <label><span>📺 Netflix</span> <input type="checkbox" value="Netflix"></label>
-        <label><span>📦 Amazon Prime</span> <input type="checkbox" value="Amazon Prime Video"></label>
-        <label><span>🐭 Disney+</span> <input type="checkbox" value="Disney Plus"></label>
-        <label><span>⚡ Max</span> <input type="checkbox" value="HBO Max"></label>
-        <label><span>🍎 Apple TV+</span> <input type="checkbox" value="Apple TV+"></label>
-        <label><span>🎬 Paramount+</span> <input type="checkbox" value="Paramount+"></label>
-    </div>
+    <label><span>📺 Netflix</span> <input type="checkbox" value="Netflix"></label>
+    <label><span>📦 Amazon Prime</span> <input type="checkbox" value="Amazon Prime Video"></label>
+    <label><span>🐭 Disney+</span> <input type="checkbox" value="Disney Plus"></label>
+    <label><span>⚡ Max</span> <input type="checkbox" value="HBO Max"></label>
+    <label><span>🍎 Apple TV+</span> <input type="checkbox" value="Apple TV+"></label>
+    <label><span>🎬 Paramount+</span> <input type="checkbox" value="Paramount+"></label>
 
     <button onclick="salvarPreferencias()">💾 Salvar Preferências</button>
   </div>
@@ -158,20 +199,8 @@
   <div class="assistidos">
     <h3>✅ Filmes que já vi</h3>
     <ul id="listaAssistidos" class="lista-filmes"></ul>
-    <button onclick="abrirModalLimpar()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px; width: auto;">Limpar Lista</button>
+    <button onclick="limparAssistidos()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
   </div>
-</div>
-
-<div id="cineModal" class="modal-overlay">
-    <div class="modal-card">
-        <i class="fas fa-trash-alt" style="color: #ff6b6b; font-size: 2rem; margin-bottom: 10px;"></i>
-        <h3 id="modalTitle">Limpar Histórico?</h3>
-        <p id="modalDesc">Deseja apagar sua lista de filmes vistos?</p>
-        <div class="modal-buttons">
-            <button class="btn-modal-cancel" onclick="fecharModal()">Não</button>
-            <button class="btn-modal-confirm" onclick="confirmarLimpeza()">Sim</button>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -189,61 +218,62 @@ function carregarPreferencias() {
       if (salvos.includes(cb.value)) cb.checked = true;
     });
   }
+  
   const savedGenero = localStorage.getItem("generoPref");
   if (savedGenero) document.getElementById("genero").value = savedGenero;
+
   renderizarAssistidos();
 }
 
 function salvarPreferencias() {
   const selecionados = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
   const genero = document.getElementById("genero").value;
-  if (selecionados.length === 0) return alert("⚠️ Escolha um streaming!");
+
+  if (selecionados.length === 0) { alert("⚠️ Escolha um streaming!"); return; }
+
   localStorage.setItem("streamings", JSON.stringify(selecionados));
   localStorage.setItem("generoPref", genero);
-  alert("✅ Configurações Salvas!");
+  alert("✅ Salvo!");
 }
 
 async function indicarFilme() {
   const favoritos = JSON.parse(localStorage.getItem("streamings")) || [];
   const generoId = document.getElementById("genero").value;
-  const resDiv = document.getElementById("resultado");
+  const resultado = document.getElementById("resultado");
 
-  if (favoritos.length === 0) { resDiv.innerHTML = "⚠️ Salve seus streamings primeiro!"; return; }
+  if (favoritos.length === 0) { resultado.innerHTML = "⚠️ Salve seus streamings!"; return; }
 
-  resDiv.innerHTML = '<div class="loading"></div>';
+  resultado.innerHTML = '<div class="loading"></div>';
 
   try {
     const providerIds = favoritos.map(nome => STREAMING_MAP[nome]).join("|");
-    const randomPage = Math.floor(Math.random() * 5) + 1; // Aumentei a variação
+    const randomPage = Math.floor(Math.random() * 3) + 1;
     
     let url = https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pt-BR&sort_by=popularity.desc&watch_region=BR&with_watch_providers=${providerIds}&page=${randomPage};
+    
     if (generoId) url += &with_genres=${generoId};
 
     const resp = await fetch(url);
     const dados = await resp.json();
-    
-    if(!dados.results || dados.results.length === 0) {
-        resDiv.innerHTML = "😕 Nenhum filme encontrado com esses filtros.";
-        return;
-    }
-
     const filmes = dados.results.filter(f => f.poster_path);
     const filme = filmes[Math.floor(Math.random() * filmes.length)];
+
+    const pResp = await fetch(https://api.themoviedb.org/3/movie/${filme.id}/watch/providers?api_key=${API_KEY});
+    const pDados = await pResp.json();
     
-    mostrarFilme(filme);
-  } catch (e) { 
-    console.error(e);
-    resDiv.innerHTML = "❌ Erro na conexão com o servidor."; 
-  }
+    mostrarFilme(filme, pDados.results?.BR?.flatrate || []);
+  } catch (e) { resultado.innerHTML = "❌ Erro ao buscar."; }
 }
 
-function mostrarFilme(filme) {
+function mostrarFilme(filme, provs) {
+  const nomes = provs.map(p => p.provider_name).join(", ") || "Seus streamings";
   document.getElementById("resultado").innerHTML = `
     <img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="poster">
-    <h2 style="color: #00ff9c; margin-bottom: 10px;">${filme.title}</h2>
-    <p style="font-size: 0.85rem; margin-bottom: 10px; line-height: 1.4;">${filme.overview || "Sem sinopse."}</p>
+    <h2>${filme.title}</h2>
+    <p style="font-size: 0.85rem; margin-bottom: 10px;">${filme.overview || "Sem sinopse."}</p>
     <p><strong>⭐ Nota:</strong> ${filme.vote_average.toFixed(1)}</p>
-    <button style="background: #00b8ff; color: white; margin-top: 15px;" onclick="marcarComoAssistido('${filme.title.replace(/'/g, "\\'")}')">✅ Já assisti esse!</button>
+    <p><strong>📺 Onde:</strong> <span style="color: #00ff9c;">${nomes}</span></p>
+    <button class="btn-check" onclick="marcarComoAssistido('${filme.title.replace(/'/g, "\\'")}')">✅ Já assisti esse!</button>
   `;
 }
 
@@ -253,30 +283,25 @@ function marcarComoAssistido(titulo) {
     assistidos.push(titulo);
     localStorage.setItem("assistidos", JSON.stringify(assistidos));
     renderizarAssistidos();
+    alert("Adicionado à sua lista!");
+  } else {
+    alert("Você já marcou esse filme!");
   }
 }
 
 function renderizarAssistidos() {
   const lista = JSON.parse(localStorage.getItem("assistidos")) || [];
-  document.getElementById("listaAssistidos").innerHTML = lista.map(t => <li>${t} <span>✔</span></li>).join("");
+  const el = document.getElementById("listaAssistidos");
+  el.innerHTML = lista.map(t => <li>${t} <span>✔</span></li>).join("");
 }
 
-// CONTROLE DO MODAL
-function abrirModalLimpar() {
-    const lista = JSON.parse(localStorage.getItem("assistidos")) || [];
-    if(lista.length === 0) return;
-    document.getElementById("cineModal").style.display = "flex";
-}
-
-function fecharModal() { document.getElementById("cineModal").style.display = "none"; }
-
-function confirmarLimpeza() {
+function limparAssistidos() {
+  if(confirm("Limpar sua lista de filmes vistos?")) {
     localStorage.removeItem("assistidos");
     renderizarAssistidos();
-    fecharModal();
+  }
 }
 
-// Iniciar
 carregarPreferencias();
 </script>
 </body>
