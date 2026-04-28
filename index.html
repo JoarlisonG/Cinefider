@@ -3,295 +3,1307 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineFinder - Encontre seu próximo filme</title>
+  <title>CineFinder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* --- SEU CSS ORIGINAL MANTIDO --- */
+    :root {
+      --verde: #00ff9c;
+      --azul: #00b8ff;
+      --vermelho: #ff4757;
+      --roxo: #a855f7;
+      --bg: #080810;
+      --card: rgba(255,255,255,0.04);
+      --borda: rgba(0,255,156,0.15);
+      --texto: #e8e8f0;
+      --texto2: #888899;
+      --accent: var(--verde);
+    }
+
+    /* modo série muda o accent para roxo */
+    body.modo-serie {
+      --accent: var(--roxo);
+      --borda: rgba(168,85,247,0.2);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--texto);
       min-height: 100vh;
-      padding: 20px;
-      position: relative;
+      padding: 24px 16px 60px;
       overflow-x: hidden;
+      transition: --accent .3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
+    /* === FUNDO === */
+    .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: orbFloat 12s ease-in-out infinite; transition: background .6s; }
+    .orb1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; animation-delay: 0s; }
+    .orb2 { width: 300px; height: 300px; background: var(--azul); bottom: -80px; right: -80px; animation-delay: -4s; }
+    .orb3 { width: 200px; height: 200px; background: var(--vermelho); top: 50%; left: 50%; animation-delay: -8s; }
+    @keyframes orbFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-30px) scale(1.05); }
+      66%      { transform: translate(-20px,20px) scale(0.95); }
+    }
+
+    /* === LAYOUT === */
+    .app { 
       width: 100%;
-      height: 100%;
-      background-image: radial-gradient(circle, rgba(0, 255, 156, 0.1) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      animation: float 20s linear infinite;
+      max-width: 460px; 
+      position: relative; 
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-50px); } }
-
-    .container { width: 100%; max-width: 450px; text-align: center; position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; }
-
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-    h1 { font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(135deg, #00ff9c, #00b8ff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 30px rgba(0, 255, 156, 0.3); }
-
-    .card { background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 255, 156, 0.2); }
-
-    .card h2 { font-size: 1.3rem; margin-bottom: 15px; color: #00ff9c; }
-
-    label { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; margin: 5px 0; background: rgba(255, 255, 255, 0.05); border-radius: 12px; cursor: pointer; transition: 0.3s; }
-    label:hover { background: rgba(0, 255, 156, 0.1); }
-
-    select { width: 100%; padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(0, 255, 156, 0.3); margin-bottom: 15px; outline: none; }
-    select option { background: #1a1a1a; }
-
-    button { margin-top: 10px; padding: 12px; border: none; border-radius: 12px; background: linear-gradient(135deg, #00ff9c, #00cc7a); color: #000; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
-    button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 255, 156, 0.4); }
-
-    .btn-indicar { background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; font-size: 1.1rem; padding: 15px; margin-bottom: 20px; }
-
-    .resultado { margin-top: 20px; padding: 20px; background: rgba(17, 17, 17, 0.9); border-radius: 20px; border: 1px solid rgba(0, 255, 156, 0.2); }
-
-    .assistidos { margin-top: 20px; padding: 20px; background: rgba(17, 17, 17, 0.9); border-radius: 20px; border: 1px solid rgba(0, 255, 156, 0.2); text-align: left; }
-    .assistidos h3 { color: #00ff9c; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
-
-    .lista-filmes { list-style: none; max-height: 200px; overflow-y: auto; }
-    .lista-filmes li { padding: 8px; background: rgba(255,255,255,0.05); margin: 5px 0; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; }
-
-    .poster { width: 100%; max-width: 250px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 15px;}
-
-    .loading { display: inline-block; width: 30px; height: 30px; border: 4px solid rgba(0, 255, 156, 0.3); border-radius: 50%; border-top-color: #00ff9c; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .btn-check { background: #00b8ff; color: white; margin-top: 15px; }
-
-    /* --- CSS DO MODAL MELHORADO --- */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-      display: none; justify-content: center; align-items: center; z-index: 1000;
+    /* === HEADER === */
+    .header { 
+      text-align: center; 
+      margin-bottom: 22px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif; 
+      font-size: 3rem; 
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, var(--verde), var(--azul));
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      color: transparent; 
+      line-height: 1;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 12px;
+      white-space: nowrap;
+    }
+    .logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+    .tagline { 
+      font-size: 0.72rem; 
+      color: var(--texto2); 
+      letter-spacing: 3px; 
+      text-transform: uppercase; 
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+
+    /* === ABAS FILMES / SÉRIES === */
+    .tabs {
+      display: flex; 
+      gap: 0; 
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; 
+      padding: 4px; 
+      overflow: hidden;
+      width: 100%;
+    }
+    .tab {
+      flex: 1; 
+      padding: 11px 16px; 
+      border: none; 
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif; 
+      font-weight: 600; 
+      font-size: 0.85rem;
+      cursor: pointer; 
+      transition: all .25s; 
+      letter-spacing: 1px; 
+      text-transform: uppercase;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px;
+      background: transparent; 
+      color: var(--texto2);
+    }
+    .tab svg { width: 15px; height: 15px; }
+    .tab.ativo-filme {
+      background: linear-gradient(135deg, rgba(0,255,156,0.2), rgba(0,184,255,0.15));
+      color: var(--verde);
+      box-shadow: 0 2px 12px rgba(0,255,156,0.15);
+    }
+    .tab.ativo-serie {
+      background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(99,102,241,0.15));
+      color: var(--roxo);
+      box-shadow: 0 2px 12px rgba(168,85,247,0.2);
+    }
+
+    /* === CARD === */
+    .card {
+      background: var(--card); 
+      border: 1px solid var(--borda);
+      border-radius: 20px; 
+      padding: 20px; 
+      margin-bottom: 14px;
+      backdrop-filter: blur(12px); 
+      transition: border-color .3s;
+      width: 100%;
+    }
+    .card-title {
+      font-size: 0.68rem; 
+      text-transform: uppercase; 
+      letter-spacing: 2.5px;
+      color: var(--accent); 
+      margin-bottom: 14px; 
+      font-weight: 600;
+      display: flex; 
+      align-items: center; 
+      gap: 7px; 
+      transition: color .3s;
+    }
+    .card-title svg { width: 14px; height: 14px; opacity: 0.85; }
+
+    /* === SELECTS === */
+    .filtros-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 8px; 
+      margin-bottom: 14px;
+      width: 100%;
+    }
+    select {
+      width: 100%; 
+      padding: 10px 14px; 
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06); 
+      color: var(--texto);
+      border: 1px solid rgba(255,255,255,0.1); 
+      outline: none;
+      font-family: 'DM Sans', sans-serif; 
+      font-size: 0.82rem;
+      cursor: pointer; 
+      transition: border-color .2s;
+    }
+    select:focus { border-color: var(--accent); }
+    select option { background: #131320; }
+
+    /* === RANGE === */
+    .nota-label {
+      font-size: 0.78rem; 
+      color: var(--texto2); 
+      margin-bottom: 7px;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    .nota-label strong { 
+      color: var(--accent); 
+      font-weight: 600; 
+      font-size: 0.9rem; 
+      transition: color .3s; 
+    }
+    input[type=range] {
+      width: 100%; 
+      height: 4px; 
+      -webkit-appearance: none; 
+      appearance: none;
+      background: rgba(255,255,255,0.1); 
+      border-radius: 4px; 
+      outline: none; 
+      margin-bottom: 14px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; 
+      appearance: none;
+      width: 18px; 
+      height: 18px; 
+      border-radius: 50%;
+      background: var(--accent); 
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,255,156,0.4); 
+      transition: background .3s;
+    }
+
+    /* === STREAMINGS === */
+    .streaming-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 8px;
+      width: 100%;
+    }
+    .stream-label {
+      display: flex; 
+      align-items: center; 
+      gap: 9px;
+      padding: 10px 12px; 
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04); 
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer; 
+      transition: all .2s; 
+      font-size: 0.82rem; 
+      user-select: none;
+      justify-content: center;
+    }
+    .stream-label:hover { 
+      border-color: var(--accent); 
+      background: rgba(255,255,255,0.07); 
+    }
+    .check-box {
+      width: 18px; 
+      height: 18px; 
+      min-width: 18px; 
+      border-radius: 5px;
+      border: 2px solid rgba(255,255,255,0.2);
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .check-box svg { width: 11px; height: 11px; display: none; }
+    .checked-style { background: var(--accent) !important; border-color: var(--accent) !important; }
+    .checked-style svg { display: block !important; }
+    .stream-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .stream-nome { flex: 1; text-align: center; }
+
+    /* === BOTÕES === */
+    .btn {
+      width: 100%; 
+      padding: 13px; 
+      border: none; 
+      border-radius: 14px;
+      font-family: 'DM Sans', sans-serif; 
+      font-weight: 600; 
+      font-size: 0.88rem;
+      cursor: pointer; 
+      transition: all .25s; 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px;
+    }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-salvar {
+      background: rgba(0,255,156,0.08); 
+      color: var(--accent);
+      border: 1px solid rgba(0,255,156,0.25); 
+      margin-top: 14px; 
+      transition: all .3s;
+    }
+    body.modo-serie .btn-salvar {
+      background: rgba(168,85,247,0.08);
+      border-color: rgba(168,85,247,0.25);
+    }
+    .btn-salvar:hover { filter: brightness(1.15); }
+
+    .btn-indicar {
+      background: linear-gradient(135deg, var(--vermelho), #ff6b35);
+      color: #fff; 
+      font-size: 1rem; 
+      padding: 16px; 
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(255,71,87,0.3);
+    }
+    .btn-indicar:hover { 
+      box-shadow: 0 6px 28px rgba(255,71,87,0.5); 
+      transform: translateY(-1px); 
+    }
+    .btn-indicar:disabled { 
+      opacity: 0.5; 
+      cursor: not-allowed; 
+      transform: none; 
+      box-shadow: none; 
+    }
+
+    .btn-assistido {
+      background: rgba(0,184,255,0.08); 
+      color: var(--azul);
+      border: 1px solid rgba(0,184,255,0.25); 
+      margin-top: 12px;
+    }
+    .btn-assistido:hover { background: rgba(0,184,255,0.16); }
+
+    /* === RESULTADO === */
+    #resultado {
+      background: var(--card); 
+      border: 1px solid var(--borda);
+      border-radius: 20px; 
+      padding: 24px; 
+      margin-bottom: 14px;
+      min-height: 80px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      text-align: center; 
+      transition: border-color .3s;
+      width: 100%;
+    }
+    .placeholder-txt { 
+      color: var(--texto2); 
+      font-size: 0.88rem; 
+      line-height: 1.6; 
+    }
+
+    /* === CARD DO CONTEÚDO === */
+    .filme-card { 
+      width: 100%; 
+      animation: fadeUp .4s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    @keyframes fadeUp { 
+      from { opacity:0; transform:translateY(16px); } 
+      to { opacity:1; transform:translateY(0); } 
+    }
+
+    .poster-wrap { 
+      position: relative; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px; 
+    }
+    .poster-wrap img { 
+      width: 180px; 
+      border-radius: 14px; 
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6); 
+      display: block; 
+    }
+    .nota-badge {
+      position: absolute; 
+      bottom: -10px; 
+      right: -10px;
+      background: linear-gradient(135deg, #ffcc00, #ff9900);
+      color: #000; 
+      font-weight: 700; 
+      font-size: 0.82rem;
+      padding: 5px 10px; 
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(255,180,0,0.4);
+      display: flex; 
+      align-items: center; 
+      gap: 4px;
+    }
+    .nota-badge svg { width: 12px; height: 12px; }
+
+    /* badge de tipo (Série / Filme) */
+    .tipo-badge {
+      display: inline-flex; 
+      align-items: center; 
+      gap: 5px;
+      font-size: 0.65rem; 
+      text-transform: uppercase; 
+      letter-spacing: 2px;
+      padding: 3px 10px; 
+      border-radius: 20px; 
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .tipo-badge.filme { 
+      background: rgba(0,255,156,0.1); 
+      color: var(--verde); 
+      border: 1px solid rgba(0,255,156,0.2); 
+    }
+    .tipo-badge.serie { 
+      background: rgba(168,85,247,0.12); 
+      color: var(--roxo); 
+      border: 1px solid rgba(168,85,247,0.25); 
+    }
+    .tipo-badge svg { width: 10px; height: 10px; }
+
+    .filme-titulo { 
+      font-family: 'Bebas Neue', sans-serif; 
+      font-size: 1.8rem; 
+      letter-spacing: 1px; 
+      margin-bottom: 4px;
+      text-align: center;
+    }
+    .filme-ano { 
+      font-size: 0.75rem; 
+      color: var(--texto2); 
+      margin-bottom: 12px; 
+      letter-spacing: 2px; 
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .filme-sinopse {
+      font-size: 0.82rem; 
+      color: #aaa; 
+      line-height: 1.6; 
+      text-align: center;
+      max-height: 90px; 
+      overflow-y: auto; 
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.03); 
+      border-radius: 10px; 
+      margin-bottom: 12px;
+      width: 100%;
+    }
+    .onde-label { 
+      font-size: 0.68rem; 
+      text-transform: uppercase; 
+      letter-spacing: 2px; 
+      color: var(--texto2); 
+      margin-bottom: 8px;
+      text-align: center;
+      width: 100%;
+    }
+    .onde-assistir { 
+      display: flex; 
+      align-items: center; 
+      gap: 7px; 
+      flex-wrap: wrap; 
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .provider-tag {
+      font-size: 0.72rem; 
+      padding: 4px 12px; 
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08); 
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--texto2);
+    }
+
+    /* === LISTA ASSISTIDOS === */
+    .assistidos-section {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .sub-tabs {
+      display: flex; 
+      gap: 0; 
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; 
+      padding: 4px; 
+      overflow: hidden;
+      width: 100%;
+    }
+    .sub-tab {
+      flex: 1; 
+      padding: 10px 14px; 
+      border: none; 
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif; 
+      font-weight: 600; 
+      font-size: 0.78rem;
+      cursor: pointer; 
+      transition: all .25s; 
+      letter-spacing: 1px; 
+      text-transform: uppercase;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 6px;
+      background: transparent; 
+      color: var(--texto2);
+    }
+    .sub-tab svg { width: 14px; height: 14px; }
+    .sub-tab.ativo-filme {
+      background: linear-gradient(135deg, rgba(0,255,156,0.2), rgba(0,184,255,0.15));
+      color: var(--verde);
+      box-shadow: 0 2px 12px rgba(0,255,156,0.15);
+    }
+    .sub-tab.ativo-serie {
+      background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(99,102,241,0.15));
+      color: var(--roxo);
+      box-shadow: 0 2px 12px rgba(168,85,247,0.2);
+    }
+
+    #listaAssistidos {
+      list-style: none;
+      width: 100%;
+    }
+    .item-assistido {
+      background: var(--card); 
+      border: 1px solid var(--borda);
+      border-radius: 12px; 
+      padding: 12px 14px; 
+      margin-bottom: 10px;
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      transition: border-color .3s;
+    }
+    .item-nome {
+      display: flex; 
+      align-items: center; 
+      gap: 8px;
+      flex: 1;
+      font-size: 0.88rem;
+    }
+    .item-nome svg { width: 14px; height: 14px; }
+    .item-nome.is-filme { color: var(--verde); }
+    .item-nome.is-serie { color: var(--roxo); }
+    .lista-vazia {
+      text-align: center;
+      color: var(--texto2);
+      font-size: 0.88rem;
+      padding: 20px;
+    }
+    .btn-remover {
+      background: none;
+      border: none;
+      color: var(--texto2);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color .2s;
+      flex-shrink: 0;
+    }
+    .btn-remover:hover { color: var(--vermelho); }
+    .btn-remover svg { width: 16px; height: 16px; }
+
+    .btn-limpar {
+      background: rgba(255,71,87,0.08);
+      color: var(--vermelho);
+      border: 1px solid rgba(255,71,87,0.25);
+      margin-top: 12px;
+    }
+    .btn-limpar:hover { background: rgba(255,71,87,0.16); }
+
+    /* === MODAL === */
+    #modal {
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.7); 
+      display: none; 
+      align-items: center; 
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    #modal.show { display: flex; }
     .modal-content {
-      background: #1a1a1a; padding: 30px; border-radius: 24px;
-      border: 1px solid rgba(0, 255, 156, 0.4); text-align: center; 
-      max-width: 320px; width: 90%;
-      box-shadow: 0 0 30px rgba(0, 255, 156, 0.15);
-      animation: modalShow 0.3s ease-out;
+      background: var(--card); 
+      border: 1px solid var(--borda);
+      border-radius: 20px; 
+      padding: 32px 24px; 
+      max-width: 90%;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      animation: slideUp .3s ease-out;
     }
-    @keyframes modalShow { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .modal-content p { margin-bottom: 25px; font-size: 1.1rem; line-height: 1.4; color: #eee; }
-    .modal-btns { display: flex; gap: 12px; justify-content: center; }
-    .modal-btns button { margin-top: 0; padding: 10px 20px; font-size: 0.9rem; }
-    .btn-confirm-modal { background: #00ff9c; color: #000; }
-    .btn-cancel-modal { background: rgba(255, 255, 255, 0.1); color: white; }
-    .btn-danger-modal { background: #ff6b6b !important; color: white !important; }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    #modalIcon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #modalIcon svg { width: 48px; height: 48px; }
+    #modalMsg {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      color: var(--texto);
+    }
+    #modalBtns {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+    .btn-ok, .btn-sim, .btn-nao {
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .25s;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-ok {
+      background: linear-gradient(135deg, var(--verde), var(--azul));
+      color: #000;
+    }
+    .btn-ok:hover { filter: brightness(1.1); }
+    .btn-sim {
+      background: linear-gradient(135deg, var(--vermelho), #ff6b35);
+      color: #fff;
+    }
+    .btn-sim:hover { filter: brightness(1.1); }
+    .btn-nao {
+      background: rgba(255,255,255,0.08);
+      color: var(--texto);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-nao:hover { background: rgba(255,255,255,0.12); }
+
+    /* === TOAST === */
+    #toast {
+      position: fixed; 
+      bottom: 20px; 
+      left: 50%; 
+      transform: translateX(-50%) translateY(120px);
+      background: var(--card); 
+      border: 1px solid var(--borda);
+      border-radius: 14px; 
+      padding: 14px 20px; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+      z-index: 999;
+      transition: transform .3s ease-out;
+      max-width: 90%;
+      width: fit-content;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
+    #toastMsg { font-size: 0.85rem; color: var(--texto); }
+
+    /* === SPINNER === */
+    .spinner {
+      border: 3px solid rgba(0,255,156,0.2);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-
-<div class="container">
-  <h1>🎬 CineFinder</h1>
-
-  <div class="card">
-    <h2>🎯 Preferências</h2>
-    <select id="genero">
-      <option value="">🎬 Todos os Gêneros</option>
-      <option value="28">Ação</option>
-      <option value="35">Comédia</option>
-      <option value="27">Terror</option>
-      <option value="10749">Romance</option>
-      <option value="878">Ficção Científica</option>
-      <option value="16">Animação</option>
-      <option value="18">Drama</option>
-    </select>
-
-    <label><span>📺 Netflix</span> <input type="checkbox" value="Netflix"></label>
-    <label><span>📦 Amazon Prime</span> <input type="checkbox" value="Amazon Prime Video"></label>
-    <label><span>🐭 Disney+</span> <input type="checkbox" value="Disney Plus"></label>
-    <label><span>⚡ Max</span> <input type="checkbox" value="HBO Max"></label>
-    <label><span>🍎 Apple TV+</span> <input type="checkbox" value="Apple TV+"></label>
-    <label><span>🎬 Paramount+</span> <input type="checkbox" value="Paramount+"></label>
-
-    <button onclick="salvarPreferencias()">💾 Salvar Preferências</button>
+  <div class="bg-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
   </div>
 
-  <button class="btn-indicar" onclick="indicarFilme()">🎲 Me indique um filme</button>
-
-  <div id="resultado" class="resultado">
-    <p style="color: #888;">✨ Configure e peça uma indicação!</p>
-  </div>
-
-  <div class="assistidos">
-    <h3>✅ Filmes que já vi</h3>
-    <ul id="listaAssistidos" class="lista-filmes"></ul>
-    <button onclick="abrirModalLimpar()" style="background: transparent; color: #ff6b6b; font-size: 0.7rem; border: 1px solid #ff6b6b; margin-top: 10px; padding: 5px;">Limpar Lista</button>
-  </div>
-</div>
-
-<div id="customModal" class="modal-overlay">
-  <div class="modal-content">
-    <p id="modalMsg">Mensagem aqui</p>
-    <div class="modal-btns" id="modalBtnContainer">
+  <div class="app">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+          <line x1="7" y1="2" x2="7" y2="22"></line>
+          <line x1="17" y1="2" x2="17" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="2" y1="7" x2="7" y2="7"></line>
+          <line x1="2" y1="17" x2="7" y2="17"></line>
+          <line x1="17" y1="17" x2="22" y2="17"></line>
+          <line x1="17" y1="7" x2="22" y2="7"></line>
+        </svg>
+        CineFinder
       </div>
+      <div class="tagline">Descubra seu próximo filme ou série</div>
+    </div>
+
+    <!-- ABAS PRINCIPAIS -->
+    <div class="tabs">
+      <button class="tab ativo-filme" id="tabFilme" onclick="trocarModo('filme')">
+        <svg><use href="#ic-film"/></svg>
+        Filmes
+      </button>
+      <button class="tab" id="tabSerie" onclick="trocarModo('serie')">
+        <svg><use href="#ic-monitor"/></svg>
+        Séries
+      </button>
+    </div>
+
+    <!-- CARD DE FILTROS -->
+    <div class="card">
+      <div class="card-title">
+        <svg><use href="#ic-sliders"/></svg>
+        Filtros
+      </div>
+      <div class="filtros-grid">
+        <select id="genero">
+          <option value="">Todos os Gêneros</option>
+        </select>
+        <select id="decada">
+          <option value="">Todas as Décadas</option>
+          <option value="2020">2020+</option>
+          <option value="2010">2010-2019</option>
+          <option value="2000">2000-2009</option>
+          <option value="1990">1990-1999</option>
+          <option value="1980">1980-1989</option>
+          <option value="1970">1970-1979</option>
+        </select>
+      </div>
+      <div class="nota-label">
+        <span>Nota Mínima</span>
+        <strong id="notaValor">0.0</strong>
+      </div>
+      <input type="range" id="notaMinima" min="0" max="10" step="0.1" value="0">
+    </div>
+
+    <!-- CARD DE STREAMINGS -->
+    <div class="card">
+      <div class="card-title">
+        <svg><use href="#ic-tv"/></svg>
+        Plataformas
+      </div>
+      <div class="streaming-grid" id="streamingGrid"></div>
+    </div>
+
+    <!-- BOTÕES DE AÇÃO -->
+    <button class="btn btn-salvar" onclick="salvarPreferencias()">
+      <svg><use href="#ic-save"/></svg>
+      Salvar Preferências
+    </button>
+
+    <button class="btn btn-indicar" id="btnIndicar" onclick="indicar()">
+      <svg><use href="#ic-shuffle"/></svg>
+      <span id="btnIndicarTxt">Me indique um filme</span>
+    </button>
+
+    <!-- RESULTADO -->
+    <div id="resultado">
+      <p class="placeholder-txt">Configure e clique para descobrir um filme</p>
+    </div>
+
+    <!-- SEÇÃO DE ASSISTIDOS -->
+    <div class="assistidos-section">
+      <div class="sub-tabs">
+        <button class="sub-tab ativo-filme" id="subTabFilme" onclick="trocarSubTab('filme')">
+          <svg><use href="#ic-film"/></svg>
+          Filmes
+        </button>
+        <button class="sub-tab" id="subTabSerie" onclick="trocarSubTab('serie')">
+          <svg><use href="#ic-monitor"/></svg>
+          Séries
+        </button>
+      </div>
+      <ul id="listaAssistidos">
+        <li class="lista-vazia">Nenhum filme marcado ainda.</li>
+      </ul>
+      <button class="btn btn-limpar" onclick="abrirModalLimpar()">
+        <svg><use href="#ic-trash"/></svg>
+        Limpar Lista
+      </button>
+    </div>
   </div>
-</div>
+
+  <!-- MODAL -->
+  <div id="modal">
+    <div class="modal-content">
+      <div id="modalIcon"></div>
+      <div id="modalMsg"></div>
+      <div id="modalBtns"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast">
+    <svg><use href="#toastIconUse"/></svg>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- SVG ICONS -->
+  <svg style="display:none">
+    <defs>
+      <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </symbol>
+      <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </symbol>
+      <symbol id="ic-shuffle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23 1 23 7 17 7"></polyline>
+        <polyline points="1 23 1 17 7 17"></polyline>
+        <path d="M1 2.61a5 5 0 0 1 8.484 3.986L10.5 9.5M22.39 22.39a5 5 0 0 1-7.07-7.07L13.5 14.5"></path>
+      </symbol>
+      <symbol id="ic-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="15" rx="2.18" ry="2.18"></rect>
+        <line x1="16" y1="3" x2="16" y2="7"></line>
+        <line x1="8" y1="3" x2="8" y2="7"></line>
+        <line x1="3" y1="11" x2="21" y2="11"></line>
+      </symbol>
+      <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </symbol>
+      <symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </symbol>
+      <symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+      </symbol>
+      <symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </symbol>
+      <symbol id="ic-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="21" x2="4" y2="14"></line>
+        <line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line>
+        <line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line>
+        <line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </symbol>
+      <symbol id="ic-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+        <polyline points="17 2 12 7 7 2"></polyline>
+      </symbol>
+      <symbol id="ic-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+        <polyline points="7 3 7 8 15 8"></polyline>
+      </symbol>
+    </defs>
+  </svg>
 
 <script>
+// ============================================================
+//  CONFIG
+// ============================================================
 const API_KEY = "95dd0fd5e6087234dd7dc6c516ffb45c";
+
+const STREAMINGS = [
+  { nome: "Netflix",      id: 8,    cor: "#E50914" },
+  { nome: "Amazon Prime", id: 9,    cor: "#00A8E1" },
+  { nome: "Disney+",      id: 337,  cor: "#113CCF" },
+  { nome: "Max",          id: 1899, cor: "#6B3FA0" },
+  { nome: "Apple TV+",    id: 350,  cor: "#A2AAAD" },
+  { nome: "Paramount+",   id: 531,  cor: "#0064FF" },
+];
+
 const STREAMING_MAP = {
-  "Netflix": 8, "Amazon Prime Video": 9, "Disney Plus": 337,
-  "HBO Max": 1899, "Apple TV+": 350, "Paramount+": 531
+  "Netflix":8, "Amazon Prime Video":9, "Amazon Prime":9,
+  "Disney Plus":337, "Disney+":337, "HBO Max":1899, "Max":1899,
+  "Apple TV+":350, "Paramount+":531
 };
 
-// --- LOGICA DO MODAL CUSTOMIZADO (SUBSTITUTO DO ALERT E CONFIRM) ---
-function mostrarModal(mensagem, tipo = 'aviso', callback = null) {
-  const modal = document.getElementById('customModal');
-  const msgText = document.getElementById('modalMsg');
-  const btnContainer = document.getElementById('modalBtnContainer');
-  
-  msgText.innerText = mensagem;
-  btnContainer.innerHTML = ''; // Limpa botões anteriores
-  
-  if (tipo === 'confirmacao') {
-    // Botão Sim
-    const btnSim = document.createElement('button');
-    btnSim.innerText = 'SIM';
-    btnSim.className = callback.name === 'limparTudo' ? 'btn-confirm-modal btn-danger-modal' : 'btn-confirm-modal';
-    btnSim.onclick = () => { fecharModal(); if(callback) callback(); };
-    
-    // Botão Não
-    const btnNao = document.createElement('button');
-    btnNao.innerText = 'NÃO';
-    btnNao.className = 'btn-cancel-modal';
-    btnNao.onclick = fecharModal;
-    
-    btnContainer.appendChild(btnSim);
-    btnContainer.appendChild(btnNao);
-  } else {
-    // Apenas botão OK (Aviso)
-    const btnOk = document.createElement('button');
-    btnOk.innerText = 'ENTENDIDO';
-    btnOk.className = 'btn-confirm-modal';
-    btnOk.onclick = fecharModal;
-    btnContainer.appendChild(btnOk);
-  }
-  
-  modal.style.display = 'flex';
+const GENEROS_FILME = [
+  { v:"", t:"Todos os Gêneros" }, { v:"28", t:"Ação" }, { v:"35", t:"Comédia" },
+  { v:"27", t:"Terror" }, { v:"10749", t:"Romance" }, { v:"878", t:"Ficção Científica" },
+  { v:"16", t:"Animação" }, { v:"18", t:"Drama" }, { v:"53", t:"Thriller" }, { v:"12", t:"Aventura" }
+];
+
+const GENEROS_SERIE = [
+  { v:"", t:"Todos os Gêneros" }, { v:"10759", t:"Ação e Aventura" }, { v:"35", t:"Comédia" },
+  { v:"80", t:"Crime" }, { v:"99", t:"Documentário" }, { v:"18", t:"Drama" },
+  { v:"10765", t:"Ficção Científica" }, { v:"9648", t:"Mistério" }, { v:"10768", t:"Guerra" },
+  { v:"37", t:"Faroeste" }
+];
+
+// ============================================================
+//  ESTADO
+// ============================================================
+let modo         = "filme";   // "filme" | "serie"
+let subTab       = "filme";   // sub-aba na lista de assistidos
+let itemAtual    = null;
+let vistosSessao = new Set();
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+  buildStreamingGrid();
+  atualizarGeneros();
+  carregarPreferencias();
+  renderizarAssistidos();
+  setupRangeNota();
 }
 
-function fecharModal() {
-  document.getElementById('customModal').style.display = 'none';
+function buildStreamingGrid() {
+  const grid = document.getElementById("streamingGrid");
+  grid.innerHTML = STREAMINGS.map(s => {
+    const key = s.nome.replace(/[\s\+]/g, '_');
+    return `
+      <label class="stream-label" onclick="toggleStream(event,'${s.nome}')">
+        <input type="checkbox" value="${s.nome}" style="display:none">
+        <div class="check-box" id="chk-${key}">
+          <svg><use href="#ic-check"/></svg>
+        </div>
+        <div class="stream-dot" style="background:${s.cor}"></div>
+        <span class="stream-nome">${s.nome}</span>
+      </label>`;
+  }).join("");
 }
 
-// --- FUNÇÕES DO APP ---
+function toggleStream(e, nome) {
+  const label = e.currentTarget;
+  const cb    = label.querySelector("input");
+  const key   = nome.replace(/[\s\+]/g, '_');
+  const box   = document.getElementById("chk-" + key);
+  cb.checked  = !cb.checked;
+  cb.checked ? box.classList.add("checked-style") : box.classList.remove("checked-style");
+}
 
-function carregarPreferencias() {
-  const savedStream = localStorage.getItem("streamings");
-  if (savedStream) {
-    const salvos = JSON.parse(savedStream);
-    document.querySelectorAll("input[type=checkbox]").forEach(cb => {
-      if (salvos.includes(cb.value)) cb.checked = true;
-    });
-  }
-  const savedGenero = localStorage.getItem("generoPref");
-  if (savedGenero) document.getElementById("genero").value = savedGenero;
+function setupRangeNota() {
+  const r = document.getElementById("notaMinima");
+  r.addEventListener("input", () => {
+    document.getElementById("notaValor").textContent = parseFloat(r.value).toFixed(1);
+  });
+}
+
+function atualizarGeneros() {
+  const sel    = document.getElementById("genero");
+  const lista  = modo === "filme" ? GENEROS_FILME : GENEROS_SERIE;
+  const antigo = sel.value;
+  sel.innerHTML = lista.map(g => `<option value="${g.v}">${g.t}</option>`).join("");
+  // tenta manter o gênero se existir no novo modo
+  if ([...sel.options].some(o => o.value === antigo)) sel.value = antigo;
+}
+
+// ============================================================
+//  TROCAR MODO (aba principal)
+// ============================================================
+function trocarModo(novoModo) {
+  if (modo === novoModo) return;
+  modo = novoModo;
+
+  // visual da aba
+  document.getElementById("tabFilme").className = "tab" + (modo === "filme" ? " ativo-filme" : "");
+  document.getElementById("tabSerie").className = "tab" + (modo === "serie" ? " ativo-serie" : "");
+
+  // cor do body
+  document.body.classList.toggle("modo-serie", modo === "serie");
+
+  // orb 1 muda de cor
+  document.querySelector(".orb1").style.background = modo === "serie" ? "#a855f7" : "#00ff9c";
+
+  // atualiza gêneros e texto do botão
+  atualizarGeneros();
+  document.getElementById("btnIndicarTxt").textContent =
+    modo === "filme" ? "Me indique um filme" : "Me indique uma série";
+
+  // limpa resultado
+  document.getElementById("resultado").innerHTML =
+    `<p class="placeholder-txt">Configure e clique para descobrir uma ${modo === "filme" ? "filme" : "série"}</p>`;
+
+  itemAtual    = null;
+  vistosSessao = new Set();
+}
+
+// ============================================================
+//  SUB-ABA DOS ASSISTIDOS
+// ============================================================
+function trocarSubTab(tab) {
+  subTab = tab;
+  document.getElementById("subTabFilme").className = "sub-tab" + (tab === "filme" ? " ativo-filme" : "");
+  document.getElementById("subTabSerie").className = "sub-tab" + (tab === "serie" ? " ativo-serie" : "");
   renderizarAssistidos();
 }
 
+// ============================================================
+//  PREFERÊNCIAS
+// ============================================================
 function salvarPreferencias() {
-  const selecionados = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
-  const genero = document.getElementById("genero").value;
-  
-  if (selecionados.length === 0) { 
-    mostrarModal("⚠️ Por favor, escolha pelo menos um streaming para salvar!"); 
-    return; 
+  const sel = Array.from(document.querySelectorAll("#streamingGrid input:checked")).map(cb => cb.value);
+  if (sel.length === 0) {
+    mostrarModal("alert", "Selecione pelo menos um streaming antes de salvar.", "aviso");
+    return;
   }
-  
-  localStorage.setItem("streamings", JSON.stringify(selecionados));
-  localStorage.setItem("generoPref", genero);
-  mostrarModal("✅ Suas preferências foram salvas com sucesso!");
+  localStorage.setItem("streamings",  JSON.stringify(sel));
+  localStorage.setItem("generoPref",  document.getElementById("genero").value);
+  localStorage.setItem("decadaPref",  document.getElementById("decada").value);
+  localStorage.setItem("notaMin",     document.getElementById("notaMinima").value);
+  mostrarToast("check", "Preferências salvas com sucesso.");
 }
 
-function abrirModalLimpar() {
-    mostrarModal("Deseja mesmo limpar sua lista de filmes assistidos?", "confirmacao", function limparTudo() {
-        localStorage.removeItem("assistidos");
-        renderizarAssistidos();
-    });
+function carregarPreferencias() {
+  const saved = JSON.parse(localStorage.getItem("streamings") || "[]");
+  document.querySelectorAll("#streamingGrid input").forEach(cb => {
+    const match = saved.some(s => s === cb.value || STREAMING_MAP[s] === STREAMING_MAP[cb.value]);
+    if (match) {
+      cb.checked = true;
+      const key  = cb.value.replace(/[\s\+]/g, '_');
+      const box  = document.getElementById("chk-" + key);
+      if (box) box.classList.add("checked-style");
+    }
+  });
+  const genero = localStorage.getItem("generoPref");
+  if (genero) document.getElementById("genero").value = genero;
+  const decada = localStorage.getItem("decadaPref");
+  if (decada) document.getElementById("decada").value = decada;
+  const nota = localStorage.getItem("notaMin");
+  if (nota) {
+    document.getElementById("notaMinima").value = nota;
+    document.getElementById("notaValor").textContent = parseFloat(nota).toFixed(1);
+  }
 }
 
-async function indicarFilme() {
-  const favoritos = JSON.parse(localStorage.getItem("streamings")) || [];
-  const generoId = document.getElementById("genero").value;
+// ============================================================
+//  INDICAR
+// ============================================================
+async function indicar() {
+  const favoritos = JSON.parse(localStorage.getItem("streamings") || "[]");
+  if (favoritos.length === 0) {
+    mostrarModal("alert", "Salve suas preferências de streaming antes de continuar.", "aviso");
+    return;
+  }
+
+  const btn = document.getElementById("btnIndicar");
+  btn.disabled = true;
+  btn.innerHTML = `<svg><use href="#ic-search"/></svg> Buscando...`;
+
   const resultado = document.getElementById("resultado");
-  
-  if (favoritos.length === 0) { 
-    mostrarModal("⚠️ Você precisa salvar suas preferências antes de pedir uma indicação!"); 
-    return; 
-  }
-  
-  resultado.innerHTML = '<div class="loading"></div>';
+  resultado.innerHTML = '<div class="spinner"></div>';
+
+  const isSerie   = modo === "serie";
+  const endpoint  = isSerie ? "tv" : "movie";
+  const chaveData = isSerie ? "first_air_date" : "release_date";
 
   try {
-    const providerIds = favoritos.map(nome => STREAMING_MAP[nome]).join("|");
-    const randomPage = Math.floor(Math.random() * 5) + 1;
-    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=pt-BR&sort_by=popularity.desc&watch_region=BR&with_watch_providers=${providerIds}&page=${randomPage}`;
-    if (generoId) url += `&with_genres=${generoId}`;
+    const assistidosSalvos = JSON.parse(localStorage.getItem("assistidos") || "[]");
+    const ignorados = new Set([
+      ...vistosSessao,
+      ...assistidosSalvos.filter(a => a.tipo === modo).map(a => a.id)
+    ]);
 
-    const resp = await fetch(url);
-    const dados = await resp.json();
-    const filmes = dados.results.filter(f => f.poster_path);
-    
-    if (filmes.length === 0) {
-        resultado.innerHTML = "😢 Nenhum filme encontrado. Tente mudar os filtros!";
-        return;
+    const providerIds = favoritos.map(n => STREAMING_MAP[n]).filter(Boolean).join("|");
+    const generoId    = document.getElementById("genero").value;
+    const decada      = document.getElementById("decada").value;
+    const notaMin     = parseFloat(document.getElementById("notaMinima").value) || 0;
+
+    let item = null, tentativas = 0;
+
+    while (!item && tentativas < 5) {
+      tentativas++;
+      const pagina = Math.floor(Math.random() * 5) + 1;
+
+      let url = `https://api.themoviedb.org/3/discover/${endpoint}?api_key=${API_KEY}`
+        + `&language=pt-BR&sort_by=popularity.desc`
+        + `&watch_region=BR&with_watch_providers=${providerIds}`
+        + `&vote_average.gte=${notaMin}&page=${pagina}`;
+
+      if (generoId) url += `&with_genres=${generoId}`;
+      if (decada) {
+        url += `&${chaveData}.gte=${decada}-01-01`;
+        if (decada !== "2020") url += `&${chaveData}.lte=${parseInt(decada)+9}-12-31`;
+      }
+
+      const resp = await fetch(url);
+      const dados = await resp.json();
+      const cands = (dados.results || []).filter(r => r.poster_path && !ignorados.has(r.id));
+      if (cands.length > 0) item = cands[Math.floor(Math.random() * cands.length)];
     }
 
-    const filme = filmes[Math.floor(Math.random() * filmes.length)];
-    const pResp = await fetch(`https://api.themoviedb.org/3/movie/${filme.id}/watch/providers?api_key=${API_KEY}`);
+    if (!item) {
+      resultado.innerHTML = `<p class="placeholder-txt">Nenhum resultado novo encontrado.<br>Tente ampliar os filtros.</p>`;
+      return;
+    }
+
+    vistosSessao.add(item.id);
+
+    const pResp  = await fetch(`https://api.themoviedb.org/3/${endpoint}/${item.id}/watch/providers?api_key=${API_KEY}`);
     const pDados = await pResp.json();
-    mostrarFilme(filme, pDados.results?.BR?.flatrate || []);
-  } catch (e) { 
-    resultado.innerHTML = "❌ Erro ao buscar filme. Verifique sua conexão."; 
+    const provs  = pDados.results?.BR?.flatrate || [];
+
+    const titulo = isSerie ? item.name : item.title;
+    const data   = isSerie ? item.first_air_date : item.release_date;
+
+    itemAtual = { id: item.id, titulo, tipo: modo };
+    mostrarItem(item, provs, titulo, data, isSerie);
+
+  } catch (e) {
+    console.error(e);
+    resultado.innerHTML = `<p class="placeholder-txt">Erro de conexão. Verifique sua internet e tente novamente.</p>`;
+  } finally {
+    btn.disabled = false;
+    const txt = modo === "filme" ? "Indicar outro filme" : "Indicar outra série";
+    btn.innerHTML = `<svg><use href="#ic-shuffle"/></svg> ${txt}`;
   }
 }
 
-function mostrarFilme(filme, provs) {
-  const nomes = provs.map(p => p.provider_name).join(", ") || "Seus streamings";
-  const tituloEscapado = filme.title.replace(/'/g, "\\'");
-  document.getElementById("resultado").innerHTML = `
-    <img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="poster">
-    <h2>${filme.title}</h2>
-    <p style="font-size: 0.85rem; margin-bottom: 10px; max-height: 100px; overflow-y: auto; padding: 0 5px;">${filme.overview || "Sem sinopse disponível."}</p>
-    <p><strong>⭐ Nota:</strong> ${filme.vote_average.toFixed(1)}</p>
-    <p><strong>📺 Onde:</strong> <span style="color: #00ff9c;">${nomes}</span></p>
-    <button class="btn-check" onclick="marcarComoAssistido('${tituloEscapado}')">✅ Já assisti esse!</button>
+// ============================================================
+//  MOSTRAR ITEM
+// ============================================================
+function mostrarItem(item, provs, titulo, data, isSerie) {
+  const resultado = document.getElementById("resultado");
+  const tags = provs.length > 0
+    ? provs.map(p => `<span class="provider-tag">${p.provider_name}</span>`).join("")
+    : `<span class="provider-tag">Seus streamings</span>`;
+
+  const ano     = data ? data.split("-")[0] : "";
+  const sinopse = item.overview || "Sinopse não disponível em português.";
+  const icone   = isSerie ? "#ic-monitor" : "#ic-film";
+  const tipoTxt = isSerie ? "Série" : "Filme";
+  const tipoCls = isSerie ? "serie" : "filme";
+  const btnTxt  = isSerie ? "Já assisti essa série" : "Já assisti esse filme";
+
+  resultado.innerHTML = `
+    <div class="filme-card">
+      <div class="poster-wrap">
+        <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" alt="${titulo}">
+        <div class="nota-badge">
+          <svg><use href="#ic-check"/></svg>
+          ${item.vote_average.toFixed(1)}
+        </div>
+      </div>
+      <div class="tipo-badge ${tipoCls}">
+        <svg><use href="${icone}"/></svg>
+        ${tipoTxt}
+      </div>
+      <div class="filme-titulo">${titulo}</div>
+      <div class="filme-ano">${ano}</div>
+      <div class="filme-sinopse">${sinopse}</div>
+      <div class="onde-label">Disponível em</div>
+      <div class="onde-assistir">${tags}</div>
+      <button class="btn btn-assistido" onclick="marcarAssistido()">
+        <svg><use href="#ic-check"/></svg>
+        ${btnTxt}
+      </button>
+    </div>
   `;
 }
 
-function marcarComoAssistido(titulo) {
-  let assistidos = JSON.parse(localStorage.getItem("assistidos")) || [];
-  if (!assistidos.includes(titulo)) {
-    assistidos.push(titulo);
-    localStorage.setItem("assistidos", JSON.stringify(assistidos));
-    renderizarAssistidos();
-    mostrarModal(`🍿 "${titulo}" adicionado aos vistos!`);
-  } else {
-    mostrarModal("Você já marcou este filme como assistido.");
+// ============================================================
+//  ASSISTIDOS
+// ============================================================
+function marcarAssistido() {
+  if (!itemAtual) return;
+  let lista = JSON.parse(localStorage.getItem("assistidos") || "[]");
+  if (lista.some(a => a.id === itemAtual.id && a.tipo === itemAtual.tipo)) {
+    mostrarToast("alert", "Este item já está na sua lista.");
+    return;
   }
+  lista.push(itemAtual);
+  localStorage.setItem("assistidos", JSON.stringify(lista));
+  // muda a sub-aba para o tipo do item marcado
+  subTab = itemAtual.tipo;
+  document.getElementById("subTabFilme").className = "sub-tab" + (subTab === "filme" ? " ativo-filme" : "");
+  document.getElementById("subTabSerie").className = "sub-tab" + (subTab === "serie" ? " ativo-serie" : "");
+  renderizarAssistidos();
+  const msg = itemAtual.tipo === "serie"
+    ? `"${itemAtual.titulo}" adicionada à lista de séries.`
+    : `"${itemAtual.titulo}" adicionado à lista de filmes.`;
+  mostrarToast("check", msg);
+}
+
+function removerAssistido(id, tipo) {
+  let lista = JSON.parse(localStorage.getItem("assistidos") || "[]");
+  lista = lista.filter(a => !(a.id === id && a.tipo === tipo));
+  localStorage.setItem("assistidos", JSON.stringify(lista));
+  renderizarAssistidos();
+  mostrarToast("check", "Removido da lista.");
 }
 
 function renderizarAssistidos() {
-  const lista = JSON.parse(localStorage.getItem("assistidos")) || [];
-  const el = document.getElementById("listaAssistidos");
-  el.innerHTML = lista.map(t => `<li>${t} <span>✔</span></li>`).join("");
+  const todos  = JSON.parse(localStorage.getItem("assistidos") || "[]");
+  const lista  = todos.filter(a => a.tipo === subTab);
+  const el     = document.getElementById("listaAssistidos");
+  const vazio  = subTab === "filme" ? "Nenhum filme marcado ainda." : "Nenhuma série marcada ainda.";
+
+  if (lista.length === 0) {
+    el.innerHTML = `<li class="lista-vazia">${vazio}</li>`;
+    return;
+  }
+
+  const icone = subTab === "serie" ? "#ic-monitor" : "#ic-film";
+  const cls   = subTab === "serie" ? "is-serie" : "is-filme";
+
+  el.innerHTML = lista.map(a => `
+    <li class="item-assistido">
+      <div class="item-nome ${cls}">
+        <svg><use href="${icone}"/></svg>
+        ${a.titulo}
+      </div>
+      <button class="btn-remover" onclick="removerAssistido(${a.id},'${a.tipo}')" title="Remover">
+        <svg><use href="#ic-x"/></svg>
+      </button>
+    </li>
+  `).join("");
 }
 
-carregarPreferencias();
+function abrirModalLimpar() {
+  const todos  = JSON.parse(localStorage.getItem("assistidos") || "[]");
+  const lista  = todos.filter(a => a.tipo === subTab);
+  if (lista.length === 0) { mostrarToast("alert", "A lista já está vazia."); return; }
+  const tipo = subTab === "filme" ? "filmes" : "séries";
+  mostrarModal("trash", `Deseja limpar toda a lista de ${tipo} assistidos?`, "confirmacao", () => {
+    const restantes = todos.filter(a => a.tipo !== subTab);
+    localStorage.setItem("assistidos", JSON.stringify(restantes));
+    renderizarAssistidos();
+    mostrarToast("check", `Lista de ${tipo} limpa com sucesso.`);
+  });
+}
+
+// ============================================================
+//  MODAL
+// ============================================================
+const ICON_MAP = { alert:"#ic-alert", trash:"#ic-trash", check:"#ic-check" };
+
+function mostrarModal(icone, mensagem, tipo = "aviso", callback = null) {
+  const ref = ICON_MAP[icone] || "#ic-alert";
+  document.getElementById("modalIcon").innerHTML =
+    `<svg style="color:var(--accent)"><use href="${ref}"/></svg>`;
+  document.getElementById("modalMsg").textContent = mensagem;
+
+  const btns = document.getElementById("modalBtns");
+  btns.innerHTML = "";
+
+  if (tipo === "confirmacao") {
+    const sim = document.createElement("button");
+    sim.innerHTML = `<svg><use href="#ic-trash"/></svg> Limpar`;
+    sim.className = "btn btn-sim";
+    sim.onclick = () => { fecharModal(); if (callback) callback(); };
+    const nao = document.createElement("button");
+    nao.textContent = "Cancelar"; nao.className = "btn btn-nao";
+    nao.onclick = fecharModal;
+    btns.appendChild(sim); btns.appendChild(nao);
+  } else {
+    const ok = document.createElement("button");
+    ok.textContent = "Entendido"; ok.className = "btn btn-ok";
+    ok.onclick = fecharModal;
+    btns.appendChild(ok);
+  }
+  document.getElementById("modal").classList.add("show");
+}
+
+function fecharModal() { document.getElementById("modal").classList.remove("show"); }
+document.getElementById("modal").addEventListener("click", e => {
+  if (e.target === document.getElementById("modal")) fecharModal();
+});
+
+// ============================================================
+//  TOAST
+// ============================================================
+let toastTimer;
+function mostrarToast(icone, msg) {
+  const ref = ICON_MAP[icone] || "#ic-check";
+  document.getElementById("toastIconUse").setAttribute("href", ref);
+  document.getElementById("toastMsg").textContent = msg;
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
+}
+
+// ============================================================
+//  START
+// ============================================================
+init();
 </script>
 </body>
 </html>
