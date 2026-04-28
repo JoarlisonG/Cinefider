@@ -35,9 +35,6 @@
       padding: 24px 16px 60px;
       overflow-x: hidden;
       transition: --accent .3s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     /* === FUNDO === */
@@ -53,81 +50,32 @@
     }
 
     /* === LAYOUT === */
-    .app { 
-      width: 100%;
-      max-width: 460px; 
-      position: relative; 
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    .app { max-width: 460px; margin: 0 auto; position: relative; z-index: 1; }
 
     /* === HEADER === */
-    .header { 
-      text-align: center; 
-      margin-bottom: 22px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+    .header { text-align: center; margin-bottom: 22px; }
     .logo {
-      font-family: 'Bebas Neue', sans-serif; 
-      font-size: 3rem; 
-      letter-spacing: 4px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 4px;
       background: linear-gradient(135deg, var(--verde), var(--azul));
-      -webkit-background-clip: text; 
-      background-clip: text; 
-      color: transparent; 
-      line-height: 1;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 12px;
-      white-space: nowrap;
+      -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
     }
     .logo svg { width: 34px; height: 34px; flex-shrink: 0; }
-    .tagline { 
-      font-size: 0.72rem; 
-      color: var(--texto2); 
-      letter-spacing: 3px; 
-      text-transform: uppercase; 
-      margin-top: 6px;
-      white-space: nowrap;
-    }
+    .tagline { font-size: 0.72rem; color: var(--texto2); letter-spacing: 3px; text-transform: uppercase; margin-top: 6px; }
 
     /* === ABAS FILMES / SÉRIES === */
     .tabs {
-      display: flex; 
-      gap: 0; 
-      margin-bottom: 18px;
+      display: flex; gap: 0; margin-bottom: 18px;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px; 
-      padding: 4px; 
-      overflow: hidden;
-      width: 100%;
+      border-radius: 16px; padding: 4px; overflow: hidden;
     }
     .tab {
-      flex: 1; 
-      padding: 11px 16px; 
-      border: none; 
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif; 
-      font-weight: 600; 
-      font-size: 0.85rem;
-      cursor: pointer; 
-      transition: all .25s; 
-      letter-spacing: 1px; 
-      text-transform: uppercase;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 8px;
-      background: transparent; 
-      color: var(--texto2);
+      flex: 1; padding: 11px 16px; border: none; border-radius: 12px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; transition: all .25s; letter-spacing: 1px; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: var(--texto2);
     }
     .tab svg { width: 15px; height: 15px; }
     .tab.ativo-filme {
@@ -143,160 +91,106 @@
 
     /* === CARD === */
     .card {
-      background: var(--card); 
-      border: 1px solid var(--borda);
-      border-radius: 20px; 
-      padding: 20px; 
-      margin-bottom: 14px;
-      backdrop-filter: blur(12px); 
-      transition: border-color .3s;
-      width: 100%;
+      background: var(--card); border: 1px solid var(--borda);
+      border-radius: 20px; padding: 20px; margin-bottom: 14px;
+      backdrop-filter: blur(12px); transition: border-color .3s;
     }
     .card-title {
-      font-size: 0.68rem; 
-      text-transform: uppercase; 
-      letter-spacing: 2.5px;
-      color: var(--accent); 
-      margin-bottom: 14px; 
-      font-weight: 600;
-      display: flex; 
-      align-items: center; 
-      gap: 7px; 
-      transition: color .3s;
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2.5px;
+      color: var(--accent); margin-bottom: 14px; font-weight: 600;
+      display: flex; align-items: center; gap: 7px; transition: color .3s;
     }
     .card-title svg { width: 14px; height: 14px; opacity: 0.85; }
 
     /* === SELECTS === */
-    .filtros-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 8px; 
-      margin-bottom: 14px;
-      width: 100%;
-    }
+    .filtros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
     select {
-      width: 100%; 
-      padding: 10px 14px; 
-      border-radius: 12px;
-      background: rgba(255,255,255,0.06); 
-      color: var(--texto);
-      border: 1px solid rgba(255,255,255,0.1); 
-      outline: none;
-      font-family: 'DM Sans', sans-serif; 
-      font-size: 0.82rem;
-      cursor: pointer; 
-      transition: border-color .2s;
+      width: 100%; padding: 10px 14px; border-radius: 12px;
+      background: rgba(255,255,255,0.06); color: var(--texto);
+      border: 1px solid rgba(255,255,255,0.1); outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+      cursor: pointer; transition: border-color .2s;
     }
     select:focus { border-color: var(--accent); }
     select option { background: #131320; }
 
-    /* === RANGE === */
-    .nota-label {
-      font-size: 0.78rem; 
-      color: var(--texto2); 
-      margin-bottom: 7px;
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center;
-    }
-    .nota-label strong { 
-      color: var(--accent); 
-      font-weight: 600; 
-      font-size: 0.9rem; 
-      transition: color .3s; 
-    }
-    input[type=range] {
-      width: 100%; 
-      height: 4px; 
-      -webkit-appearance: none; 
-      appearance: none;
-      background: rgba(255,255,255,0.1); 
-      border-radius: 4px; 
-      outline: none; 
+    /* === FILTRO DE ANO === */
+    .ano-wrap {
       margin-bottom: 14px;
     }
+    .ano-label {
+      font-size: 0.78rem; color: var(--texto2); margin-bottom: 7px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .ano-label strong { color: var(--accent); font-weight: 600; transition: color .3s; }
+    .ano-inputs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
+    .ano-sep { font-size: 0.75rem; color: var(--texto2); text-align: center; letter-spacing: 1px; }
+    .ano-input-wrap { position: relative; }
+    .ano-input-wrap input[type=number] {
+      width: 100%; padding: 10px 14px; border-radius: 12px;
+      background: rgba(255,255,255,0.06); color: var(--texto);
+      border: 1px solid rgba(255,255,255,0.1); outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+      transition: border-color .2s; text-align: center;
+      -moz-appearance: textfield;
+    }
+    .ano-input-wrap input[type=number]::-webkit-inner-spin-button,
+    .ano-input-wrap input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .ano-input-wrap input[type=number]:focus { border-color: var(--accent); }
+    .ano-input-wrap input[type=number].erro { border-color: var(--vermelho) !important; }
+    .ano-erro { font-size: 0.7rem; color: var(--vermelho); margin-top: 6px; display: none; }
+    .ano-erro.show { display: block; }
+
+    /* === RANGE === */
+    .nota-label {
+      font-size: 0.78rem; color: var(--texto2); margin-bottom: 7px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nota-label strong { color: var(--accent); font-weight: 600; font-size: 0.9rem; transition: color .3s; }
+    input[type=range] {
+      width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
+      background: rgba(255,255,255,0.1); border-radius: 4px; outline: none; margin-bottom: 14px;
+    }
     input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; 
-      appearance: none;
-      width: 18px; 
-      height: 18px; 
-      border-radius: 50%;
-      background: var(--accent); 
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,255,156,0.4); 
-      transition: background .3s;
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,255,156,0.4); transition: background .3s;
     }
 
     /* === STREAMINGS === */
-    .streaming-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 8px;
-      width: 100%;
-    }
+    .streaming-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .stream-label {
-      display: flex; 
-      align-items: center; 
-      gap: 9px;
-      padding: 10px 12px; 
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04); 
-      border: 1px solid rgba(255,255,255,0.07);
-      cursor: pointer; 
-      transition: all .2s; 
-      font-size: 0.82rem; 
-      user-select: none;
-      justify-content: center;
+      display: flex; align-items: center; gap: 9px;
+      padding: 10px 12px; border-radius: 12px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer; transition: all .2s; font-size: 0.82rem; user-select: none;
     }
-    .stream-label:hover { 
-      border-color: var(--accent); 
-      background: rgba(255,255,255,0.07); 
-    }
+    .stream-label:hover { border-color: var(--accent); background: rgba(255,255,255,0.07); }
     .check-box {
-      width: 18px; 
-      height: 18px; 
-      min-width: 18px; 
-      border-radius: 5px;
+      width: 18px; height: 18px; min-width: 18px; border-radius: 5px;
       border: 2px solid rgba(255,255,255,0.2);
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      transition: all .2s;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; transition: all .2s;
     }
     .check-box svg { width: 11px; height: 11px; display: none; }
     .checked-style { background: var(--accent) !important; border-color: var(--accent) !important; }
     .checked-style svg { display: block !important; }
     .stream-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .stream-nome { flex: 1; text-align: center; }
+    .stream-nome { flex: 1; }
 
     /* === BOTÕES === */
     .btn {
-      width: 100%; 
-      padding: 13px; 
-      border: none; 
-      border-radius: 14px;
-      font-family: 'DM Sans', sans-serif; 
-      font-weight: 600; 
-      font-size: 0.88rem;
-      cursor: pointer; 
-      transition: all .25s; 
-      text-transform: uppercase; 
-      letter-spacing: 1.5px;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 8px;
+      width: 100%; padding: 13px; border: none; border-radius: 14px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.88rem;
+      cursor: pointer; transition: all .25s; text-transform: uppercase; letter-spacing: 1.5px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
     .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
     .btn:active { transform: scale(0.97); }
 
     .btn-salvar {
-      background: rgba(0,255,156,0.08); 
-      color: var(--accent);
-      border: 1px solid rgba(0,255,156,0.25); 
-      margin-top: 14px; 
-      transition: all .3s;
+      background: rgba(0,255,156,0.08); color: var(--accent);
+      border: 1px solid rgba(0,255,156,0.25); margin-top: 14px; transition: all .3s;
     }
     body.modo-serie .btn-salvar {
       background: rgba(168,85,247,0.08);
@@ -306,580 +200,342 @@
 
     .btn-indicar {
       background: linear-gradient(135deg, var(--vermelho), #ff6b35);
-      color: #fff; 
-      font-size: 1rem; 
-      padding: 16px; 
-      margin-bottom: 14px;
+      color: #fff; font-size: 1rem; padding: 16px; margin-bottom: 14px;
       box-shadow: 0 4px 20px rgba(255,71,87,0.3);
     }
-    .btn-indicar:hover { 
-      box-shadow: 0 6px 28px rgba(255,71,87,0.5); 
-      transform: translateY(-1px); 
-    }
-    .btn-indicar:disabled { 
-      opacity: 0.5; 
-      cursor: not-allowed; 
-      transform: none; 
-      box-shadow: none; 
-    }
+    .btn-indicar:hover { box-shadow: 0 6px 28px rgba(255,71,87,0.5); transform: translateY(-1px); }
+    .btn-indicar:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .btn-assistido {
-      background: rgba(0,184,255,0.08); 
-      color: var(--azul);
-      border: 1px solid rgba(0,184,255,0.25); 
-      margin-top: 12px;
+      background: rgba(0,184,255,0.08); color: var(--azul);
+      border: 1px solid rgba(0,184,255,0.25); margin-top: 12px;
     }
     .btn-assistido:hover { background: rgba(0,184,255,0.16); }
 
     /* === RESULTADO === */
     #resultado {
-      background: var(--card); 
-      border: 1px solid var(--borda);
-      border-radius: 20px; 
-      padding: 24px; 
-      margin-bottom: 14px;
-      min-height: 80px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      text-align: center; 
-      transition: border-color .3s;
-      width: 100%;
+      background: var(--card); border: 1px solid var(--borda);
+      border-radius: 20px; padding: 24px; margin-bottom: 14px;
+      min-height: 80px; display: flex; align-items: center; justify-content: center;
+      text-align: center; transition: border-color .3s;
     }
-    .placeholder-txt { 
-      color: var(--texto2); 
-      font-size: 0.88rem; 
-      line-height: 1.6; 
-    }
+    .placeholder-txt { color: var(--texto2); font-size: 0.88rem; line-height: 1.6; }
 
     /* === CARD DO CONTEÚDO === */
-    .filme-card { 
-      width: 100%; 
-      animation: fadeUp .4s ease-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    @keyframes fadeUp { 
-      from { opacity:0; transform:translateY(16px); } 
-      to { opacity:1; transform:translateY(0); } 
-    }
+    .filme-card { width: 100%; animation: fadeUp .4s ease-out; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-    .poster-wrap { 
-      position: relative; 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px; 
-    }
-    .poster-wrap img { 
-      width: 180px; 
-      border-radius: 14px; 
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6); 
-      display: block; 
-    }
+    .poster-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
+    .poster-wrap img { width: 180px; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); display: block; }
     .nota-badge {
-      position: absolute; 
-      bottom: -10px; 
-      right: -10px;
+      position: absolute; bottom: -10px; right: -10px;
       background: linear-gradient(135deg, #ffcc00, #ff9900);
-      color: #000; 
-      font-weight: 700; 
-      font-size: 0.82rem;
-      padding: 5px 10px; 
-      border-radius: 10px;
+      color: #000; font-weight: 700; font-size: 0.82rem;
+      padding: 5px 10px; border-radius: 10px;
       box-shadow: 0 4px 12px rgba(255,180,0,0.4);
-      display: flex; 
-      align-items: center; 
-      gap: 4px;
+      display: flex; align-items: center; gap: 4px;
     }
     .nota-badge svg { width: 12px; height: 12px; }
 
     /* badge de tipo (Série / Filme) */
     .tipo-badge {
-      display: inline-flex; 
-      align-items: center; 
-      gap: 5px;
-      font-size: 0.65rem; 
-      text-transform: uppercase; 
-      letter-spacing: 2px;
-      padding: 3px 10px; 
-      border-radius: 20px; 
-      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;
+      padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
       font-weight: 600;
     }
-    .tipo-badge.filme { 
-      background: rgba(0,255,156,0.1); 
-      color: var(--verde); 
-      border: 1px solid rgba(0,255,156,0.2); 
-    }
-    .tipo-badge.serie { 
-      background: rgba(168,85,247,0.12); 
-      color: var(--roxo); 
-      border: 1px solid rgba(168,85,247,0.25); 
-    }
+    .tipo-badge.filme { background: rgba(0,255,156,0.1); color: var(--verde); border: 1px solid rgba(0,255,156,0.2); }
+    .tipo-badge.serie { background: rgba(168,85,247,0.12); color: var(--roxo); border: 1px solid rgba(168,85,247,0.25); }
     .tipo-badge svg { width: 10px; height: 10px; }
 
-    .filme-titulo { 
-      font-family: 'Bebas Neue', sans-serif; 
-      font-size: 1.8rem; 
-      letter-spacing: 1px; 
-      margin-bottom: 4px;
-      text-align: center;
-    }
-    .filme-ano { 
-      font-size: 0.75rem; 
-      color: var(--texto2); 
-      margin-bottom: 12px; 
-      letter-spacing: 2px; 
-      text-transform: uppercase;
-      text-align: center;
-    }
+    .filme-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 4px; }
+    .filme-ano { font-size: 0.75rem; color: var(--texto2); margin-bottom: 12px; letter-spacing: 2px; text-transform: uppercase; }
     .filme-sinopse {
-      font-size: 0.82rem; 
-      color: #aaa; 
-      line-height: 1.6; 
-      text-align: center;
-      max-height: 90px; 
-      overflow-y: auto; 
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.03); 
-      border-radius: 10px; 
-      margin-bottom: 12px;
-      width: 100%;
+      font-size: 0.82rem; color: #aaa; line-height: 1.6; text-align: left;
+      max-height: 90px; overflow-y: auto; padding: 10px 12px;
+      background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 12px;
     }
-    .onde-label { 
-      font-size: 0.68rem; 
-      text-transform: uppercase; 
-      letter-spacing: 2px; 
-      color: var(--texto2); 
-      margin-bottom: 8px;
-      text-align: center;
-      width: 100%;
-    }
-    .onde-assistir { 
-      display: flex; 
-      align-items: center; 
-      gap: 7px; 
-      flex-wrap: wrap; 
-      justify-content: center;
-      width: 100%;
-      margin-bottom: 12px;
-    }
+    .onde-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: var(--texto2); margin-bottom: 8px; }
+    .onde-assistir { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; justify-content: center; }
     .provider-tag {
-      font-size: 0.72rem; 
-      padding: 4px 12px; 
-      border-radius: 8px;
-      background: rgba(255,255,255,0.08); 
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--texto2);
+      font-size: 0.72rem; padding: 4px 12px; border-radius: 20px;
+      background: rgba(0,255,156,0.07); border: 1px solid rgba(0,255,156,0.18); color: var(--verde);
     }
-
-    /* === LISTA ASSISTIDOS === */
-    .assistidos-section {
-      width: 100%;
-      margin-top: 20px;
+    body.modo-serie .provider-tag {
+      background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.2); color: var(--roxo);
     }
-    .sub-tabs {
-      display: flex; 
-      gap: 0; 
-      margin-bottom: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px; 
-      padding: 4px; 
-      overflow: hidden;
-      width: 100%;
-    }
-    .sub-tab {
-      flex: 1; 
-      padding: 10px 14px; 
-      border: none; 
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif; 
-      font-weight: 600; 
-      font-size: 0.78rem;
-      cursor: pointer; 
-      transition: all .25s; 
-      letter-spacing: 1px; 
-      text-transform: uppercase;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 6px;
-      background: transparent; 
-      color: var(--texto2);
-    }
-    .sub-tab svg { width: 14px; height: 14px; }
-    .sub-tab.ativo-filme {
-      background: linear-gradient(135deg, rgba(0,255,156,0.2), rgba(0,184,255,0.15));
-      color: var(--verde);
-      box-shadow: 0 2px 12px rgba(0,255,156,0.15);
-    }
-    .sub-tab.ativo-serie {
-      background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(99,102,241,0.15));
-      color: var(--roxo);
-      box-shadow: 0 2px 12px rgba(168,85,247,0.2);
-    }
-
-    #listaAssistidos {
-      list-style: none;
-      width: 100%;
-    }
-    .item-assistido {
-      background: var(--card); 
-      border: 1px solid var(--borda);
-      border-radius: 12px; 
-      padding: 12px 14px; 
-      margin-bottom: 10px;
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between;
-      transition: border-color .3s;
-    }
-    .item-nome {
-      display: flex; 
-      align-items: center; 
-      gap: 8px;
-      flex: 1;
-      font-size: 0.88rem;
-    }
-    .item-nome svg { width: 14px; height: 14px; }
-    .item-nome.is-filme { color: var(--verde); }
-    .item-nome.is-serie { color: var(--roxo); }
-    .lista-vazia {
-      text-align: center;
-      color: var(--texto2);
-      font-size: 0.88rem;
-      padding: 20px;
-    }
-    .btn-remover {
-      background: none;
-      border: none;
-      color: var(--texto2);
-      cursor: pointer;
-      padding: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color .2s;
-      flex-shrink: 0;
-    }
-    .btn-remover:hover { color: var(--vermelho); }
-    .btn-remover svg { width: 16px; height: 16px; }
-
-    .btn-limpar {
-      background: rgba(255,71,87,0.08);
-      color: var(--vermelho);
-      border: 1px solid rgba(255,71,87,0.25);
-      margin-top: 12px;
-    }
-    .btn-limpar:hover { background: rgba(255,71,87,0.16); }
-
-    /* === MODAL === */
-    #modal {
-      position: fixed; 
-      inset: 0; 
-      background: rgba(0,0,0,0.7); 
-      display: none; 
-      align-items: center; 
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
-    }
-    #modal.show { display: flex; }
-    .modal-content {
-      background: var(--card); 
-      border: 1px solid var(--borda);
-      border-radius: 20px; 
-      padding: 32px 24px; 
-      max-width: 90%;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      animation: slideUp .3s ease-out;
-    }
-    @keyframes slideUp {
-      from { opacity:0; transform:translateY(20px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-    #modalIcon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #modalIcon svg { width: 48px; height: 48px; }
-    #modalMsg {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 24px;
-      color: var(--texto);
-    }
-    #modalBtns {
-      display: flex;
-      gap: 10px;
-      flex-direction: column;
-    }
-    .btn-ok, .btn-sim, .btn-nao {
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .25s;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn-ok {
-      background: linear-gradient(135deg, var(--verde), var(--azul));
-      color: #000;
-    }
-    .btn-ok:hover { filter: brightness(1.1); }
-    .btn-sim {
-      background: linear-gradient(135deg, var(--vermelho), #ff6b35);
-      color: #fff;
-    }
-    .btn-sim:hover { filter: brightness(1.1); }
-    .btn-nao {
-      background: rgba(255,255,255,0.08);
-      color: var(--texto);
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .btn-nao:hover { background: rgba(255,255,255,0.12); }
-
-    /* === TOAST === */
-    #toast {
-      position: fixed; 
-      bottom: 20px; 
-      left: 50%; 
-      transform: translateX(-50%) translateY(120px);
-      background: var(--card); 
-      border: 1px solid var(--borda);
-      border-radius: 14px; 
-      padding: 14px 20px; 
-      display: flex; 
-      align-items: center; 
-      gap: 10px;
-      z-index: 999;
-      transition: transform .3s ease-out;
-      max-width: 90%;
-      width: fit-content;
-    }
-    #toast.show { transform: translateX(-50%) translateY(0); }
-    #toast svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
-    #toastMsg { font-size: 0.85rem; color: var(--texto); }
 
     /* === SPINNER === */
     .spinner {
-      border: 3px solid rgba(0,255,156,0.2);
-      border-top: 3px solid var(--accent);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin .8s linear infinite;
+      width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.08);
+      border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* === LISTA ASSISTIDOS === */
+    .assistidos-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .btn-limpar {
+      background: none; border: 1px solid rgba(255,71,87,0.3); color: var(--vermelho);
+      font-size: 0.65rem; padding: 4px 10px; border-radius: 8px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: all .2s;
     }
+    .btn-limpar:hover { background: rgba(255,71,87,0.1); }
+
+    /* sub-abas dentro do card de assistidos */
+    .sub-tabs {
+      display: flex; gap: 6px; margin-bottom: 12px;
+    }
+    .sub-tab {
+      flex: 1; padding: 7px; border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: 1px;
+      background: rgba(255,255,255,0.04); color: var(--texto2);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .sub-tab svg { width: 12px; height: 12px; }
+    .sub-tab.ativo-filme { background: rgba(0,255,156,0.12); color: var(--verde); }
+    .sub-tab.ativo-serie { background: rgba(168,85,247,0.14); color: var(--roxo); }
+
+    .lista-assistidos { list-style: none; max-height: 190px; overflow-y: auto; }
+    .lista-assistidos::-webkit-scrollbar { width: 3px; }
+    .lista-assistidos::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 3px; }
+
+    .item-assistido {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 10px; margin-bottom: 5px;
+      background: rgba(255,255,255,0.03); border-radius: 10px;
+      font-size: 0.8rem; animation: fadeUp .3s ease-out;
+    }
+    .item-nome { display: flex; align-items: center; gap: 8px; color: var(--texto); }
+    .item-nome svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .item-nome.is-serie svg { color: var(--roxo); }
+    .item-nome.is-filme svg { color: var(--verde); }
+    .btn-remover {
+      background: none; border: none; cursor: pointer; padding: 2px 6px;
+      color: var(--texto2); transition: color .2s; display: flex; align-items: center;
+    }
+    .btn-remover:hover { color: var(--vermelho); }
+    .btn-remover svg { width: 14px; height: 14px; }
+    .lista-vazia { color: var(--texto2); font-size: 0.8rem; text-align: center; padding: 14px 0; }
+
+    /* === MODAL === */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(10px); display: none;
+      justify-content: center; align-items: center; z-index: 100;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #13132a; border: 1px solid var(--borda);
+      border-radius: 22px; padding: 28px 24px;
+      max-width: 300px; width: 90%; text-align: center;
+      animation: modalPop .25s ease-out;
+    }
+    @keyframes modalPop { from { transform:scale(0.85); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .modal-icon { margin-bottom: 12px; display: flex; justify-content: center; }
+    .modal-icon svg { width: 36px; height: 36px; }
+    .modal-msg { font-size: 0.92rem; line-height: 1.55; color: #ccc; margin-bottom: 22px; }
+    .modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .modal-btns .btn { padding: 10px 22px; font-size: 0.78rem; width: auto; }
+    .btn-ok  { background: var(--verde); color: #000; }
+    .btn-sim { background: var(--vermelho); color: #fff; }
+    .btn-nao { background: rgba(255,255,255,0.07); color: #aaa; border: 1px solid rgba(255,255,255,0.1); }
+
+    /* === TOAST === */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1c1c32; border: 1px solid rgba(255,255,255,0.1);
+      padding: 11px 22px; border-radius: 30px;
+      font-size: 0.82rem; color: var(--texto);
+      transition: transform .3s ease; z-index: 200;
+      white-space: nowrap; pointer-events: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
   </style>
 </head>
 <body>
-  <div class="bg-orbs">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
+
+<!-- SVG Symbols -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/>
+  </symbol>
+  <symbol id="ic-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/>
+  </symbol>
+  <symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </symbol>
+  <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+  </symbol>
+  <symbol id="ic-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+  </symbol>
+  <symbol id="ic-shuffle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/>
+  </symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+  </symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </symbol>
+  <symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+  </symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </symbol>
+  <symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+  </symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </symbol>
+</svg>
+
+<!-- Fundo -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <svg><use href="#ic-film"/></svg>
+      CineFinder
+    </div>
+    <div class="tagline">Filmes e séries sob medida para você</div>
   </div>
 
-  <div class="app">
-    <!-- HEADER -->
-    <div class="header">
-      <div class="logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-          <line x1="7" y1="2" x2="7" y2="22"></line>
-          <line x1="17" y1="2" x2="17" y2="22"></line>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <line x1="2" y1="7" x2="7" y2="7"></line>
-          <line x1="2" y1="17" x2="7" y2="17"></line>
-          <line x1="17" y1="17" x2="22" y2="17"></line>
-          <line x1="17" y1="7" x2="22" y2="7"></line>
-        </svg>
-        CineFinder
-      </div>
-      <div class="tagline">Descubra seu próximo filme ou série</div>
+  <!-- Abas Filmes / Séries -->
+  <div class="tabs">
+    <button class="tab ativo-filme" id="tabFilme" onclick="trocarModo('filme')">
+      <svg><use href="#ic-film"/></svg>
+      Filmes
+    </button>
+    <button class="tab" id="tabSerie" onclick="trocarModo('serie')">
+      <svg><use href="#ic-monitor"/></svg>
+      Séries
+    </button>
+  </div>
+
+  <!-- Card Preferências -->
+  <div class="card">
+    <div class="card-title">
+      <svg><use href="#ic-settings"/></svg>
+      Preferências
     </div>
 
-    <!-- ABAS PRINCIPAIS -->
-    <div class="tabs">
-      <button class="tab ativo-filme" id="tabFilme" onclick="trocarModo('filme')">
+    <div style="margin-bottom:14px;">
+      <!-- Gêneros - os options são trocados via JS conforme o modo -->
+      <select id="genero" style="width:100%;"></select>
+    </div>
+
+    <!-- Filtro de Ano -->
+    <div class="ano-wrap">
+      <div class="ano-label">
+        <span>Período de lançamento</span>
+        <strong id="anoRangeLabel">Qualquer ano</strong>
+      </div>
+      <div class="ano-inputs">
+        <div class="ano-input-wrap">
+          <input type="number" id="anoDe" placeholder="1900" min="1900" max="2025"
+                 oninput="atualizarAnoLabel()" onblur="validarAnos()">
+        </div>
+        <span class="ano-sep">até</span>
+        <div class="ano-input-wrap">
+          <input type="number" id="anoAte" placeholder="2025" min="1900" max="2025"
+                 oninput="atualizarAnoLabel()" onblur="validarAnos()">
+        </div>
+      </div>
+      <div class="ano-erro" id="anoErro">O ano inicial não pode ser maior que o final.</div>
+    </div>
+
+    <div class="nota-label">
+      <span>Nota mínima</span>
+      <strong id="notaValor">6.0</strong>
+    </div>
+    <input type="range" id="notaMinima" min="0" max="9" step="0.5" value="6">
+
+    <div class="card-title" style="margin-top:4px;">
+      <svg><use href="#ic-tv"/></svg>
+      Seus Streamings
+    </div>
+    <div class="streaming-grid" id="streamingGrid"></div>
+
+    <button class="btn btn-salvar" onclick="salvarPreferencias()">
+      <svg><use href="#ic-save"/></svg>
+      Salvar Preferências
+    </button>
+  </div>
+
+  <!-- Botão indicar -->
+  <button class="btn btn-indicar" id="btnIndicar" onclick="indicar()">
+    <svg><use href="#ic-shuffle"/></svg>
+    <span id="btnIndicarTxt">Me indique um filme</span>
+  </button>
+
+  <!-- Resultado -->
+  <div id="resultado">
+    <p class="placeholder-txt">Configure seus streamings e clique no botão acima</p>
+  </div>
+
+  <!-- Lista de Assistidos -->
+  <div class="card" style="margin-top:14px;">
+    <div class="assistidos-header">
+      <div class="card-title" style="margin:0;">
+        <svg><use href="#ic-eye"/></svg>
+        Já Assisti
+      </div>
+      <button class="btn-limpar" onclick="abrirModalLimpar()">Limpar</button>
+    </div>
+
+    <!-- Sub-abas Filmes / Séries na lista -->
+    <div class="sub-tabs">
+      <button class="sub-tab ativo-filme" id="subTabFilme" onclick="trocarSubTab('filme')">
         <svg><use href="#ic-film"/></svg>
         Filmes
       </button>
-      <button class="tab" id="tabSerie" onclick="trocarModo('serie')">
+      <button class="sub-tab" id="subTabSerie" onclick="trocarSubTab('serie')">
         <svg><use href="#ic-monitor"/></svg>
         Séries
       </button>
     </div>
 
-    <!-- CARD DE FILTROS -->
-    <div class="card">
-      <div class="card-title">
-        <svg><use href="#ic-sliders"/></svg>
-        Filtros
-      </div>
-      <div class="filtros-grid">
-        <select id="genero">
-          <option value="">Todos os Gêneros</option>
-        </select>
-        <select id="decada">
-          <option value="">Todas as Décadas</option>
-          <option value="2020">2020+</option>
-          <option value="2010">2010-2019</option>
-          <option value="2000">2000-2009</option>
-          <option value="1990">1990-1999</option>
-          <option value="1980">1980-1989</option>
-          <option value="1970">1970-1979</option>
-        </select>
-      </div>
-      <div class="nota-label">
-        <span>Nota Mínima</span>
-        <strong id="notaValor">0.0</strong>
-      </div>
-      <input type="range" id="notaMinima" min="0" max="10" step="0.1" value="0">
-    </div>
-
-    <!-- CARD DE STREAMINGS -->
-    <div class="card">
-      <div class="card-title">
-        <svg><use href="#ic-tv"/></svg>
-        Plataformas
-      </div>
-      <div class="streaming-grid" id="streamingGrid"></div>
-    </div>
-
-    <!-- BOTÕES DE AÇÃO -->
-    <button class="btn btn-salvar" onclick="salvarPreferencias()">
-      <svg><use href="#ic-save"/></svg>
-      Salvar Preferências
-    </button>
-
-    <button class="btn btn-indicar" id="btnIndicar" onclick="indicar()">
-      <svg><use href="#ic-shuffle"/></svg>
-      <span id="btnIndicarTxt">Me indique um filme</span>
-    </button>
-
-    <!-- RESULTADO -->
-    <div id="resultado">
-      <p class="placeholder-txt">Configure e clique para descobrir um filme</p>
-    </div>
-
-    <!-- SEÇÃO DE ASSISTIDOS -->
-    <div class="assistidos-section">
-      <div class="sub-tabs">
-        <button class="sub-tab ativo-filme" id="subTabFilme" onclick="trocarSubTab('filme')">
-          <svg><use href="#ic-film"/></svg>
-          Filmes
-        </button>
-        <button class="sub-tab" id="subTabSerie" onclick="trocarSubTab('serie')">
-          <svg><use href="#ic-monitor"/></svg>
-          Séries
-        </button>
-      </div>
-      <ul id="listaAssistidos">
-        <li class="lista-vazia">Nenhum filme marcado ainda.</li>
-      </ul>
-      <button class="btn btn-limpar" onclick="abrirModalLimpar()">
-        <svg><use href="#ic-trash"/></svg>
-        Limpar Lista
-      </button>
-    </div>
+    <ul class="lista-assistidos" id="listaAssistidos"></ul>
   </div>
 
-  <!-- MODAL -->
-  <div id="modal">
-    <div class="modal-content">
-      <div id="modalIcon"></div>
-      <div id="modalMsg"></div>
-      <div id="modalBtns"></div>
-    </div>
-  </div>
+</div>
 
-  <!-- TOAST -->
-  <div id="toast">
-    <svg><use href="#toastIconUse"/></svg>
-    <span id="toastMsg"></span>
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon"></div>
+    <p class="modal-msg" id="modalMsg"></p>
+    <div class="modal-btns" id="modalBtns"></div>
   </div>
+</div>
 
-  <!-- SVG ICONS -->
-  <svg style="display:none">
-    <defs>
-      <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </symbol>
-      <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
-      </symbol>
-      <symbol id="ic-shuffle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="23 1 23 7 17 7"></polyline>
-        <polyline points="1 23 1 17 7 17"></polyline>
-        <path d="M1 2.61a5 5 0 0 1 8.484 3.986L10.5 9.5M22.39 22.39a5 5 0 0 1-7.07-7.07L13.5 14.5"></path>
-      </symbol>
-      <symbol id="ic-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="7" width="20" height="15" rx="2.18" ry="2.18"></rect>
-        <line x1="16" y1="3" x2="16" y2="7"></line>
-        <line x1="8" y1="3" x2="8" y2="7"></line>
-        <line x1="3" y1="11" x2="21" y2="11"></line>
-      </symbol>
-      <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-        <circle cx="12" cy="13" r="4"></circle>
-      </symbol>
-      <symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="8" x2="12" y2="12"></line>
-        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-      </symbol>
-      <symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-        <line x1="10" y1="11" x2="10" y2="17"></line>
-        <line x1="14" y1="11" x2="14" y2="17"></line>
-      </symbol>
-      <symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </symbol>
-      <symbol id="ic-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="4" y1="21" x2="4" y2="14"></line>
-        <line x1="4" y1="10" x2="4" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12" y2="3"></line>
-        <line x1="20" y1="21" x2="20" y2="16"></line>
-        <line x1="20" y1="12" x2="20" y2="3"></line>
-        <line x1="1" y1="14" x2="7" y2="14"></line>
-        <line x1="9" y1="8" x2="15" y2="8"></line>
-        <line x1="17" y1="16" x2="23" y2="16"></line>
-      </symbol>
-      <symbol id="ic-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-        <polyline points="17 2 12 7 7 2"></polyline>
-      </symbol>
-      <symbol id="ic-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-        <polyline points="7 3 7 8 15 8"></polyline>
-      </symbol>
-    </defs>
-  </svg>
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg id="toastIconSvg"><use id="toastIconUse" href="#ic-check"/></svg>
+  <span id="toastMsg"></span>
+</div>
 
 <script>
 // ============================================================
@@ -1024,9 +680,11 @@ function salvarPreferencias() {
     mostrarModal("alert", "Selecione pelo menos um streaming antes de salvar.", "aviso");
     return;
   }
+  if (!validarAnos()) return;
   localStorage.setItem("streamings",  JSON.stringify(sel));
   localStorage.setItem("generoPref",  document.getElementById("genero").value);
-  localStorage.setItem("decadaPref",  document.getElementById("decada").value);
+  localStorage.setItem("anoDe",       document.getElementById("anoDe").value);
+  localStorage.setItem("anoAte",      document.getElementById("anoAte").value);
   localStorage.setItem("notaMin",     document.getElementById("notaMinima").value);
   mostrarToast("check", "Preferências salvas com sucesso.");
 }
@@ -1044,8 +702,11 @@ function carregarPreferencias() {
   });
   const genero = localStorage.getItem("generoPref");
   if (genero) document.getElementById("genero").value = genero;
-  const decada = localStorage.getItem("decadaPref");
-  if (decada) document.getElementById("decada").value = decada;
+  const anoDe = localStorage.getItem("anoDe");
+  if (anoDe) document.getElementById("anoDe").value = anoDe;
+  const anoAte = localStorage.getItem("anoAte");
+  if (anoAte) document.getElementById("anoAte").value = anoAte;
+  atualizarAnoLabel();
   const nota = localStorage.getItem("notaMin");
   if (nota) {
     document.getElementById("notaMinima").value = nota;
@@ -1083,7 +744,8 @@ async function indicar() {
 
     const providerIds = favoritos.map(n => STREAMING_MAP[n]).filter(Boolean).join("|");
     const generoId    = document.getElementById("genero").value;
-    const decada      = document.getElementById("decada").value;
+    const anoDe       = document.getElementById("anoDe").value.trim();
+    const anoAte      = document.getElementById("anoAte").value.trim();
     const notaMin     = parseFloat(document.getElementById("notaMinima").value) || 0;
 
     let item = null, tentativas = 0;
@@ -1098,10 +760,8 @@ async function indicar() {
         + `&vote_average.gte=${notaMin}&page=${pagina}`;
 
       if (generoId) url += `&with_genres=${generoId}`;
-      if (decada) {
-        url += `&${chaveData}.gte=${decada}-01-01`;
-        if (decada !== "2020") url += `&${chaveData}.lte=${parseInt(decada)+9}-12-31`;
-      }
+      if (anoDe)  url += `&${chaveData}.gte=${anoDe}-01-01`;
+      if (anoAte) url += `&${chaveData}.lte=${anoAte}-12-31`;
 
       const resp = await fetch(url);
       const dados = await resp.json();
@@ -1157,7 +817,7 @@ function mostrarItem(item, provs, titulo, data, isSerie) {
       <div class="poster-wrap">
         <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" alt="${titulo}">
         <div class="nota-badge">
-          <svg><use href="#ic-check"/></svg>
+          <svg style="color:#000"><use href="#ic-star"/></svg>
           ${item.vote_average.toFixed(1)}
         </div>
       </div>
@@ -1298,6 +958,54 @@ function mostrarToast(icone, msg) {
   t.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
+}
+
+// ============================================================
+//  FILTRO DE ANO
+// ============================================================
+function atualizarAnoLabel() {
+  const de  = document.getElementById("anoDe").value.trim();
+  const ate = document.getElementById("anoAte").value.trim();
+  const label = document.getElementById("anoRangeLabel");
+  if (de && ate)       label.textContent = `${de} — ${ate}`;
+  else if (de)         label.textContent = `A partir de ${de}`;
+  else if (ate)        label.textContent = `Até ${ate}`;
+  else                 label.textContent = "Qualquer ano";
+}
+
+function validarAnos() {
+  const de    = parseInt(document.getElementById("anoDe").value) || 0;
+  const ate   = parseInt(document.getElementById("anoAte").value) || 0;
+  const erro  = document.getElementById("anoErro");
+  const inDe  = document.getElementById("anoDe");
+  const inAte = document.getElementById("anoAte");
+  const anoAtual = new Date().getFullYear();
+
+  // limpa estados anteriores
+  inDe.classList.remove("erro");
+  inAte.classList.remove("erro");
+  erro.classList.remove("show");
+
+  if (de && ate && de > ate) {
+    inDe.classList.add("erro");
+    inAte.classList.add("erro");
+    erro.textContent = "O ano inicial não pode ser maior que o final.";
+    erro.classList.add("show");
+    return false;
+  }
+  if (de && (de < 1900 || de > anoAtual)) {
+    inDe.classList.add("erro");
+    erro.textContent = `Ano inválido. Use entre 1900 e ${anoAtual}.`;
+    erro.classList.add("show");
+    return false;
+  }
+  if (ate && (ate < 1900 || ate > anoAtual)) {
+    inAte.classList.add("erro");
+    erro.textContent = `Ano inválido. Use entre 1900 e ${anoAtual}.`;
+    erro.classList.add("show");
+    return false;
+  }
+  return true;
 }
 
 // ============================================================
