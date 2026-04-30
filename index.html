@@ -114,33 +114,6 @@
     select:focus { border-color: var(--accent); }
     select option { background: #131320; }
 
-    /* === FILTRO DE ANO === */
-    .ano-wrap {
-      margin-bottom: 14px;
-    }
-    .ano-label {
-      font-size: 0.78rem; color: var(--texto2); margin-bottom: 7px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .ano-label strong { color: var(--accent); font-weight: 600; transition: color .3s; }
-    .ano-inputs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
-    .ano-sep { font-size: 0.75rem; color: var(--texto2); text-align: center; letter-spacing: 1px; }
-    .ano-input-wrap { position: relative; }
-    .ano-input-wrap input[type=number] {
-      width: 100%; padding: 10px 14px; border-radius: 12px;
-      background: rgba(255,255,255,0.06); color: var(--texto);
-      border: 1px solid rgba(255,255,255,0.1); outline: none;
-      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
-      transition: border-color .2s; text-align: center;
-      -moz-appearance: textfield;
-    }
-    .ano-input-wrap input[type=number]::-webkit-inner-spin-button,
-    .ano-input-wrap input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
-    .ano-input-wrap input[type=number]:focus { border-color: var(--accent); }
-    .ano-input-wrap input[type=number].erro { border-color: var(--vermelho) !important; }
-    .ano-erro { font-size: 0.7rem; color: var(--vermelho); margin-top: 6px; display: none; }
-    .ano-erro.show { display: block; }
-
     /* === RANGE === */
     .nota-label {
       font-size: 0.78rem; color: var(--texto2); margin-bottom: 7px;
@@ -212,29 +185,7 @@
     }
     .btn-assistido:hover { background: rgba(0,184,255,0.16); }
 
-    /* === PREFERÊNCIAS ATIVAS === */
-    .prefs-ativas {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px; padding: 12px 14px;
-      margin-bottom: 14px; display: none;
-    }
-    .prefs-ativas.show { display: block; }
-    .prefs-ativas-titulo {
-      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--texto2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-    }
-    .prefs-ativas-titulo svg { width: 11px; height: 11px; }
-    .prefs-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-    .pref-tag {
-      font-size: 0.7rem; padding: 3px 10px; border-radius: 20px;
-      background: rgba(0,255,156,0.07); border: 1px solid rgba(0,255,156,0.15);
-      color: #aaa;
-    }
-    body.modo-serie .pref-tag {
-      background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.15);
-    }
-    .pref-tag strong { color: var(--accent); font-weight: 600; }
+    /* === RESULTADO === */
     #resultado {
       background: var(--card); border: 1px solid var(--borda);
       border-radius: 20px; padding: 24px; margin-bottom: 14px;
@@ -463,29 +414,18 @@
       Preferências
     </div>
 
-    <div style="margin-bottom:14px;">
+    <div class="filtros-grid">
       <!-- Gêneros - os options são trocados via JS conforme o modo -->
-      <select id="genero" style="width:100%;"></select>
-    </div>
+      <select id="genero"></select>
 
-    <!-- Filtro de Ano -->
-    <div class="ano-wrap">
-      <div class="ano-label">
-        <span>Período de lançamento</span>
-        <strong id="anoRangeLabel">Qualquer ano</strong>
-      </div>
-      <div class="ano-inputs">
-        <div class="ano-input-wrap">
-          <input type="number" id="anoDe" placeholder="1900" min="1900" max="2025"
-                 oninput="atualizarAnoLabel()" onblur="validarAnos()">
-        </div>
-        <span class="ano-sep">até</span>
-        <div class="ano-input-wrap">
-          <input type="number" id="anoAte" placeholder="2025" min="1900" max="2025"
-                 oninput="atualizarAnoLabel()" onblur="validarAnos()">
-        </div>
-      </div>
-      <div class="ano-erro" id="anoErro">O ano inicial não pode ser maior que o final.</div>
+      <select id="decada">
+        <option value="">Qualquer Época</option>
+        <option value="2020">Anos 2020+</option>
+        <option value="2010">Anos 2010</option>
+        <option value="2000">Anos 2000</option>
+        <option value="1990">Anos 1990</option>
+        <option value="1980">Anos 1980</option>
+      </select>
     </div>
 
     <div class="nota-label">
@@ -511,15 +451,6 @@
     <svg><use href="#ic-shuffle"/></svg>
     <span id="btnIndicarTxt">Me indique um filme</span>
   </button>
-
-  <!-- Resumo das preferências ativas -->
-  <div class="prefs-ativas" id="prefsAtivas">
-    <div class="prefs-ativas-titulo">
-      <svg><use href="#ic-check"/></svg>
-      Buscando com estas preferências
-    </div>
-    <div class="prefs-tags" id="prefsTags"></div>
-  </div>
 
   <!-- Resultado -->
   <div id="resultado">
@@ -657,7 +588,7 @@ function atualizarGeneros() {
   const sel    = document.getElementById("genero");
   const lista  = modo === "filme" ? GENEROS_FILME : GENEROS_SERIE;
   const antigo = sel.value;
-  sel.innerHTML = lista.map(g => `<option value="${g.v}">${g.t}</option>`).join("");
+  sel.innerHTML = lista.map(g => <option value="${g.v}">${g.t}</option>).join("");
   // tenta manter o gênero se existir no novo modo
   if ([...sel.options].some(o => o.value === antigo)) sel.value = antigo;
 }
@@ -686,7 +617,7 @@ function trocarModo(novoModo) {
 
   // limpa resultado
   document.getElementById("resultado").innerHTML =
-    `<p class="placeholder-txt">Configure e clique para descobrir uma ${modo === "filme" ? "filme" : "série"}</p>`;
+    <p class="placeholder-txt">Configure e clique para descobrir uma ${modo === "filme" ? "filme" : "série"}</p>;
 
   itemAtual    = null;
   vistosSessao = new Set();
@@ -711,14 +642,11 @@ function salvarPreferencias() {
     mostrarModal("alert", "Selecione pelo menos um streaming antes de salvar.", "aviso");
     return;
   }
-  if (!validarAnos()) return;
   localStorage.setItem("streamings",  JSON.stringify(sel));
   localStorage.setItem("generoPref",  document.getElementById("genero").value);
-  localStorage.setItem("anoDe",       document.getElementById("anoDe").value);
-  localStorage.setItem("anoAte",      document.getElementById("anoAte").value);
+  localStorage.setItem("decadaPref",  document.getElementById("decada").value);
   localStorage.setItem("notaMin",     document.getElementById("notaMinima").value);
   mostrarToast("check", "Preferências salvas com sucesso.");
-  atualizarPrefsAtivas();
 }
 
 function carregarPreferencias() {
@@ -734,12 +662,8 @@ function carregarPreferencias() {
   });
   const genero = localStorage.getItem("generoPref");
   if (genero) document.getElementById("genero").value = genero;
-  const anoDe = localStorage.getItem("anoDe");
-  if (anoDe) document.getElementById("anoDe").value = anoDe;
-  const anoAte = localStorage.getItem("anoAte");
-  if (anoAte) document.getElementById("anoAte").value = anoAte;
-  atualizarAnoLabel();
-  atualizarPrefsAtivas();
+  const decada = localStorage.getItem("decadaPref");
+  if (decada) document.getElementById("decada").value = decada;
   const nota = localStorage.getItem("notaMin");
   if (nota) {
     document.getElementById("notaMinima").value = nota;
@@ -748,88 +672,18 @@ function carregarPreferencias() {
 }
 
 // ============================================================
-//  INDICAR — usa APENAS o que foi salvo pelo usuário
+//  INDICAR
 // ============================================================
 async function indicar() {
-  // ── 1. Verifica se há preferências salvas ──────────────────
-  const prefSalva = localStorage.getItem("streamings");
-  if (!prefSalva) {
-    mostrarModal("alert", "Configure e salve suas preferências antes de pedir uma indicação.", "aviso");
-    return;
-  }
-
-  const favoritos = JSON.parse(prefSalva);
-  if (favoritos.length === 0) {
-    mostrarModal("alert", "Selecione pelo menos um streaming nas preferências e salve.", "aviso");
-    return;
-  }
-
-  // ── 2. Detecta se há alterações não salvas na tela ─────────
-  const telaSalva = {
-    streamings: JSON.stringify(
-      Array.from(document.querySelectorAll("#streamingGrid input:checked")).map(cb => cb.value)
-    ),
-    genero:  document.getElementById("genero").value,
-    anoDe:   document.getElementById("anoDe").value.trim(),
-    anoAte:  document.getElementById("anoAte").value.trim(),
-    notaMin: document.getElementById("notaMinima").value,
-  };
-
-  const prefAtual = {
-    streamings: JSON.stringify(favoritos),
-    genero:  localStorage.getItem("generoPref")  || "",
-    anoDe:   localStorage.getItem("anoDe")       || "",
-    anoAte:  localStorage.getItem("anoAte")      || "",
-    notaMin: localStorage.getItem("notaMin")     || "6",
-  };
-
-  const temAlteracao = Object.keys(prefAtual).some(k => telaSalva[k] !== prefAtual[k]);
-
-  if (temAlteracao) {
-    mostrarModal(
-      "alert",
-      "Você tem alterações não salvas. Salve suas preferências antes de continuar.",
-      "confirmacao",
-      salvarEIndicar
-    );
-    // Troca texto dos botões do modal para este contexto
-    setTimeout(() => {
-      const [btnSim] = document.querySelectorAll("#modalBtns .btn-sim");
-      const [btnNao] = document.querySelectorAll("#modalBtns .btn-nao");
-      if (btnSim) { btnSim.innerHTML = `<svg><use href="#ic-save"/></svg> Salvar e indicar`; }
-      if (btnNao) btnNao.textContent = "Cancelar";
-    }, 10);
-    return;
-  }
-
-  await buscarEIndicar();
-}
-
-async function salvarEIndicar() {
-  // salva silenciosamente sem mostrar toast, depois indica
-  const sel = Array.from(document.querySelectorAll("#streamingGrid input:checked")).map(cb => cb.value);
-  if (!validarAnos()) return;
-  localStorage.setItem("streamings", JSON.stringify(sel));
-  localStorage.setItem("generoPref", document.getElementById("genero").value);
-  localStorage.setItem("anoDe",      document.getElementById("anoDe").value.trim());
-  localStorage.setItem("anoAte",     document.getElementById("anoAte").value.trim());
-  localStorage.setItem("notaMin",    document.getElementById("notaMinima").value);
-  mostrarToast("check", "Preferências salvas. Buscando...");
-  atualizarPrefsAtivas();
-  await buscarEIndicar();
-}
-
-async function buscarEIndicar() {
-  // ── Lê TUDO do localStorage — fonte única da verdade ───────
   const favoritos = JSON.parse(localStorage.getItem("streamings") || "[]");
-  const generoId  = localStorage.getItem("generoPref") || "";
-  const anoDe     = localStorage.getItem("anoDe")      || "";
-  const anoAte    = localStorage.getItem("anoAte")     || "";
-  const notaMin   = parseFloat(localStorage.getItem("notaMin")) || 0;
+  if (favoritos.length === 0) {
+    mostrarModal("alert", "Salve suas preferências de streaming antes de continuar.", "aviso");
+    return;
+  }
 
   const btn = document.getElementById("btnIndicar");
   btn.disabled = true;
-  btn.innerHTML = `<svg><use href="#ic-search"/></svg> Buscando...`;
+  btn.innerHTML = <svg><use href="#ic-search"/></svg> Buscando...;
 
   const resultado = document.getElementById("resultado");
   resultado.innerHTML = '<div class="spinner"></div>';
@@ -846,6 +700,9 @@ async function buscarEIndicar() {
     ]);
 
     const providerIds = favoritos.map(n => STREAMING_MAP[n]).filter(Boolean).join("|");
+    const generoId    = document.getElementById("genero").value;
+    const decada      = document.getElementById("decada").value;
+    const notaMin     = parseFloat(document.getElementById("notaMinima").value) || 0;
 
     let item = null, tentativas = 0;
 
@@ -853,14 +710,16 @@ async function buscarEIndicar() {
       tentativas++;
       const pagina = Math.floor(Math.random() * 5) + 1;
 
-      let url = `https://api.themoviedb.org/3/discover/${endpoint}?api_key=${API_KEY}`
-        + `&language=pt-BR&sort_by=popularity.desc`
-        + `&watch_region=BR&with_watch_providers=${providerIds}`
-        + `&vote_average.gte=${notaMin}&page=${pagina}`;
+      let url = https://api.themoviedb.org/3/discover/${endpoint}?api_key=${API_KEY}
+        + &language=pt-BR&sort_by=popularity.desc
+        + &watch_region=BR&with_watch_providers=${providerIds}
+        + &vote_average.gte=${notaMin}&page=${pagina};
 
-      if (generoId) url += `&with_genres=${generoId}`;
-      if (anoDe)    url += `&${chaveData}.gte=${anoDe}-01-01`;
-      if (anoAte)   url += `&${chaveData}.lte=${anoAte}-12-31`;
+      if (generoId) url += &with_genres=${generoId};
+      if (decada) {
+        url += &${chaveData}.gte=${decada}-01-01;
+        if (decada !== "2020") url += &${chaveData}.lte=${parseInt(decada)+9}-12-31;
+      }
 
       const resp = await fetch(url);
       const dados = await resp.json();
@@ -869,13 +728,13 @@ async function buscarEIndicar() {
     }
 
     if (!item) {
-      resultado.innerHTML = `<p class="placeholder-txt">Nenhum resultado encontrado com essas preferências.<br>Tente ajustar os filtros salvos.</p>`;
+      resultado.innerHTML = <p class="placeholder-txt">Nenhum resultado novo encontrado.<br>Tente ampliar os filtros.</p>;
       return;
     }
 
     vistosSessao.add(item.id);
 
-    const pResp  = await fetch(`https://api.themoviedb.org/3/${endpoint}/${item.id}/watch/providers?api_key=${API_KEY}`);
+    const pResp  = await fetch(https://api.themoviedb.org/3/${endpoint}/${item.id}/watch/providers?api_key=${API_KEY});
     const pDados = await pResp.json();
     const provs  = pDados.results?.BR?.flatrate || [];
 
@@ -887,11 +746,11 @@ async function buscarEIndicar() {
 
   } catch (e) {
     console.error(e);
-    resultado.innerHTML = `<p class="placeholder-txt">Erro de conexão. Verifique sua internet e tente novamente.</p>`;
+    resultado.innerHTML = <p class="placeholder-txt">Erro de conexão. Verifique sua internet e tente novamente.</p>;
   } finally {
     btn.disabled = false;
     const txt = modo === "filme" ? "Indicar outro filme" : "Indicar outra série";
-    btn.innerHTML = `<svg><use href="#ic-shuffle"/></svg> ${txt}`;
+    btn.innerHTML = <svg><use href="#ic-shuffle"/></svg> ${txt};
   }
 }
 
@@ -901,8 +760,8 @@ async function buscarEIndicar() {
 function mostrarItem(item, provs, titulo, data, isSerie) {
   const resultado = document.getElementById("resultado");
   const tags = provs.length > 0
-    ? provs.map(p => `<span class="provider-tag">${p.provider_name}</span>`).join("")
-    : `<span class="provider-tag">Seus streamings</span>`;
+    ? provs.map(p => <span class="provider-tag">${p.provider_name}</span>).join("")
+    : <span class="provider-tag">Seus streamings</span>;
 
   const ano     = data ? data.split("-")[0] : "";
   const sinopse = item.overview || "Sinopse não disponível em português.";
@@ -955,8 +814,8 @@ function marcarAssistido() {
   document.getElementById("subTabSerie").className = "sub-tab" + (subTab === "serie" ? " ativo-serie" : "");
   renderizarAssistidos();
   const msg = itemAtual.tipo === "serie"
-    ? `"${itemAtual.titulo}" adicionada à lista de séries.`
-    : `"${itemAtual.titulo}" adicionado à lista de filmes.`;
+    ? "${itemAtual.titulo}" adicionada à lista de séries.
+    : "${itemAtual.titulo}" adicionado à lista de filmes.;
   mostrarToast("check", msg);
 }
 
@@ -975,7 +834,7 @@ function renderizarAssistidos() {
   const vazio  = subTab === "filme" ? "Nenhum filme marcado ainda." : "Nenhuma série marcada ainda.";
 
   if (lista.length === 0) {
-    el.innerHTML = `<li class="lista-vazia">${vazio}</li>`;
+    el.innerHTML = <li class="lista-vazia">${vazio}</li>;
     return;
   }
 
@@ -1000,11 +859,11 @@ function abrirModalLimpar() {
   const lista  = todos.filter(a => a.tipo === subTab);
   if (lista.length === 0) { mostrarToast("alert", "A lista já está vazia."); return; }
   const tipo = subTab === "filme" ? "filmes" : "séries";
-  mostrarModal("trash", `Deseja limpar toda a lista de ${tipo} assistidos?`, "confirmacao", () => {
+  mostrarModal("trash", Deseja limpar toda a lista de ${tipo} assistidos?, "confirmacao", () => {
     const restantes = todos.filter(a => a.tipo !== subTab);
     localStorage.setItem("assistidos", JSON.stringify(restantes));
     renderizarAssistidos();
-    mostrarToast("check", `Lista de ${tipo} limpa com sucesso.`);
+    mostrarToast("check", Lista de ${tipo} limpa com sucesso.);
   });
 }
 
@@ -1016,7 +875,7 @@ const ICON_MAP = { alert:"#ic-alert", trash:"#ic-trash", check:"#ic-check" };
 function mostrarModal(icone, mensagem, tipo = "aviso", callback = null) {
   const ref = ICON_MAP[icone] || "#ic-alert";
   document.getElementById("modalIcon").innerHTML =
-    `<svg style="color:var(--accent)"><use href="${ref}"/></svg>`;
+    <svg style="color:var(--accent)"><use href="${ref}"/></svg>;
   document.getElementById("modalMsg").textContent = mensagem;
 
   const btns = document.getElementById("modalBtns");
@@ -1024,7 +883,7 @@ function mostrarModal(icone, mensagem, tipo = "aviso", callback = null) {
 
   if (tipo === "confirmacao") {
     const sim = document.createElement("button");
-    sim.innerHTML = `<svg><use href="#ic-trash"/></svg> Limpar`;
+    sim.innerHTML = <svg><use href="#ic-trash"/></svg> Limpar;
     sim.className = "btn btn-sim";
     sim.onclick = () => { fecharModal(); if (callback) callback(); };
     const nao = document.createElement("button");
@@ -1057,85 +916,6 @@ function mostrarToast(icone, msg) {
   t.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
-}
-
-function atualizarPrefsAtivas() {
-  const streamings = JSON.parse(localStorage.getItem("streamings") || "[]");
-  const generoId   = localStorage.getItem("generoPref") || "";
-  const anoDe      = localStorage.getItem("anoDe")  || "";
-  const anoAte     = localStorage.getItem("anoAte") || "";
-  const notaMin    = localStorage.getItem("notaMin") || "";
-
-  const div = document.getElementById("prefsAtivas");
-  const tags = document.getElementById("prefsTags");
-
-  if (streamings.length === 0) { div.classList.remove("show"); return; }
-
-  const itens = [];
-
-  // streamings
-  itens.push(`<span class="pref-tag"><strong>Streaming:</strong> ${streamings.join(", ")}</span>`);
-
-  // gênero
-  const todosGen = [...GENEROS_FILME, ...GENEROS_SERIE];
-  const genNome  = todosGen.find(g => g.v === generoId)?.t;
-  if (genNome && generoId) itens.push(`<span class="pref-tag"><strong>Gênero:</strong> ${genNome}</span>`);
-
-  // período
-  if (anoDe && anoAte)   itens.push(`<span class="pref-tag"><strong>Período:</strong> ${anoDe} — ${anoAte}</span>`);
-  else if (anoDe)        itens.push(`<span class="pref-tag"><strong>A partir de:</strong> ${anoDe}</span>`);
-  else if (anoAte)       itens.push(`<span class="pref-tag"><strong>Até:</strong> ${anoAte}</span>`);
-
-  // nota
-  if (notaMin && parseFloat(notaMin) > 0)
-    itens.push(`<span class="pref-tag"><strong>Nota mínima:</strong> ${parseFloat(notaMin).toFixed(1)}</span>`);
-
-  tags.innerHTML = itens.join("");
-  div.classList.add("show");
-}
-function atualizarAnoLabel() {
-  const de  = document.getElementById("anoDe").value.trim();
-  const ate = document.getElementById("anoAte").value.trim();
-  const label = document.getElementById("anoRangeLabel");
-  if (de && ate)       label.textContent = `${de} — ${ate}`;
-  else if (de)         label.textContent = `A partir de ${de}`;
-  else if (ate)        label.textContent = `Até ${ate}`;
-  else                 label.textContent = "Qualquer ano";
-}
-
-function validarAnos() {
-  const de    = parseInt(document.getElementById("anoDe").value) || 0;
-  const ate   = parseInt(document.getElementById("anoAte").value) || 0;
-  const erro  = document.getElementById("anoErro");
-  const inDe  = document.getElementById("anoDe");
-  const inAte = document.getElementById("anoAte");
-  const anoAtual = new Date().getFullYear();
-
-  // limpa estados anteriores
-  inDe.classList.remove("erro");
-  inAte.classList.remove("erro");
-  erro.classList.remove("show");
-
-  if (de && ate && de > ate) {
-    inDe.classList.add("erro");
-    inAte.classList.add("erro");
-    erro.textContent = "O ano inicial não pode ser maior que o final.";
-    erro.classList.add("show");
-    return false;
-  }
-  if (de && (de < 1900 || de > anoAtual)) {
-    inDe.classList.add("erro");
-    erro.textContent = `Ano inválido. Use entre 1900 e ${anoAtual}.`;
-    erro.classList.add("show");
-    return false;
-  }
-  if (ate && (ate < 1900 || ate > anoAtual)) {
-    inAte.classList.add("erro");
-    erro.textContent = `Ano inválido. Use entre 1900 e ${anoAtual}.`;
-    erro.classList.add("show");
-    return false;
-  }
-  return true;
 }
 
 // ============================================================
